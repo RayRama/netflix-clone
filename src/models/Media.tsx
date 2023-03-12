@@ -4,7 +4,7 @@ interface MediaInterface {
   rating: number;
   genre: string;
   image?: string;
-  premiumOnly?: boolean; // Menambahkan properti baru
+  premiumOnly?: boolean;
 }
 
 export class Movie implements MediaInterface {
@@ -14,7 +14,7 @@ export class Movie implements MediaInterface {
   rating: number;
   genre: string;
   image?: string;
-  premiumOnly = true; // Menetapkan nilai premiumOnly ke true
+  premiumOnly = true;
 
   constructor(
     title: string,

@@ -17,6 +17,8 @@ export default function HomeScreen() {
     premium: false,
   });
 
+  user1.premium = true;
+
   return (
     <ScrollView>
       <TouchableOpacity
