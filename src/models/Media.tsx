@@ -1,3 +1,4 @@
+import { Alert } from "react-native";
 interface MediaInterface {
   title: string;
   description: string;
@@ -8,35 +9,45 @@ interface MediaInterface {
 }
 
 export class Movie implements MediaInterface {
+  // ini adalah association karena Movie class memerlukan data dari interface MediaInterface
   // interface
   title: string;
   description: string;
   rating: number;
   genre: string;
   image?: string;
-  premiumOnly = true;
+  premiumOnly: boolean;
 
   constructor(
     title: string,
     description: string,
     rating: number,
     genre: string,
-    image?: string
+    image?: string,
+    premiumOnly?: boolean
   ) {
     this.title = title;
     this.description = description;
     this.rating = rating;
     this.genre = genre;
     this.image = image;
+    this.premiumOnly = premiumOnly;
   }
 
-  play(user?: User): void {
-    if (this.premiumOnly && (!user || !user.getPremium())) {
-      alert("Sorry, this media is only available to premium users.");
-      return;
+  // play(user?: User): void {
+  //   if (this.premiumOnly && (!user || !user.checkPremium())) {
+  //     alert("Sorry, this media is only available to premium users.");
+  //     return;
+  //   }
+
+  //   alert("Playing " + this.title);
+  // }
+  play(user?: User): boolean {
+    if (this.premiumOnly && (!user || !user.checkPremium())) {
+      return false;
     }
 
-    alert("Playing " + this.title);
+    return true;
   }
 
   getMovieDetails(): void {
@@ -46,7 +57,7 @@ export class Movie implements MediaInterface {
 
   getMovieDescription(): void {
     // abstraction
-    alert(`${this.description}`);
+    Alert.alert("Description", `${this.description}`);
   }
 
   static createMovies(data: MediaInterface[]): Movie[] {
@@ -57,7 +68,8 @@ export class Movie implements MediaInterface {
           movieData.description,
           movieData.rating,
           movieData.genre,
-          movieData.image
+          movieData.image,
+          movieData.premiumOnly
         )
     );
 
@@ -93,9 +105,10 @@ export class Series extends Movie {
     return series;
   }
 
-  play(): void {
+  play(): boolean {
     // polymorphism (overriding)
-    alert("Playing " + this.title);
+    // alert("Playing " + this.title);
+    return true;
   }
 
   // getMovieDetails() and getMovieDescription() is abstracted from Movie class

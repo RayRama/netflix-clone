@@ -1,9 +1,9 @@
 export class User {
   // encapsulation
-  private username: string;
-  private email: string;
-  private password: string;
-  private premium: boolean;
+  private _username: string;
+  private _email: string;
+  private _password: string;
+  private _premium: boolean = false;
 
   constructor({
     username,
@@ -16,25 +16,37 @@ export class User {
     password: string;
     premium?: boolean;
   }) {
-    this.username = username;
-    this.email = email;
-    this.password = password;
-    this.upgradeToPremium(premium);
+    this._username = username;
+    this._email = email;
+    this._password = password;
+    this._setPremium(premium);
   }
 
-  getPremium(): boolean {
-    return this.premium;
+  get premium(): boolean {
+    return this._premium;
   }
 
-  upgradeToPremium(premium: boolean = true): void {
-    if (premium) {
-      this.premium = true;
+  private _setPremium(value: boolean): void {
+    if (value) {
+      this._premium = true;
       alert(`Congratulations, you are now a premium user!`);
     }
   }
 
+  upgradeToPremium(premium: boolean = true): void {
+    this._setPremium(premium);
+  }
+
   downgradeToFree(): void {
-    this.premium = false;
+    this._premium = false;
     alert(`You are now a free user.`);
+  }
+
+  checkPremium(): boolean {
+    return this._premium;
+  }
+
+  getUsername(): string {
+    return this._username;
   }
 }

@@ -3,10 +3,11 @@ export const MovieList = [
     title: "The Godfather",
     description:
       "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
-    rating: 5,
+    rating: 9,
     genre: "Crime",
     image:
       "https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg",
+    premiumOnly: false,
   },
   {
     title: "Avengers: Endgame",
@@ -16,6 +17,7 @@ export const MovieList = [
     genre: "Action, Adventure, Drama",
     image:
       "http://c.files.bbci.co.uk/7FF5/production/_106575723_gettyimages-1140253018.jpg",
+    premiumOnly: true,
   },
   {
     title: "The Dark Knight",
@@ -25,5 +27,6 @@ export const MovieList = [
     genre: "Action, Crime, Drama",
     image:
       "https://t-2.tstatic.net/style/foto/bank/images/the-dark-knight_20161204_171759.jpg",
+    premiumOnly: true,
   },
 ];

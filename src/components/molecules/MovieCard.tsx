@@ -11,6 +11,7 @@ export default function MovieCard({
   type = "Movie",
   onPress,
   watchPress,
+  premiumOnly,
 }) {
   return (
     <Card onPress={onPress}>
@@ -26,7 +27,7 @@ export default function MovieCard({
             borderRadius: 10,
           }}
         />
-        {type === "Series" && (
+        {!premiumOnly && (
           <View
             style={{
               position: "absolute",
