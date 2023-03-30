@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
 import { Movie, Series } from "@models/Media";
-import { User } from "@models/User";
+import { ContohUser, UserAccount, Animal, Rhino, Employee } from "@models/User";
 import MovieCard from "@molecules/MovieCard";
 import { ScrollView } from "react-native";
 import { MovieList } from "@data/MovieList";
@@ -9,9 +9,9 @@ import { SeriesList } from "@data/SeriesList";
 
 export default function HomeScreen({ navigation }) {
   const [isPremium, setIsPremium] = React.useState(false);
-  const movies = Movie.createMovies(MovieList);
+  const movies = Movie.createMovie(MovieList);
   const series = Series.createSeries(SeriesList);
-  const user1 = new User({
+  const user1 = new UserAccount({
     username: "John",
     email: "john@email.com",
     password: "123456",

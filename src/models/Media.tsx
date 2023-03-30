@@ -1,4 +1,5 @@
 import { Alert } from "react-native";
+import { UserAccount } from "./User";
 interface MediaInterface {
   title: string;
   description: string;
@@ -8,8 +9,8 @@ interface MediaInterface {
   premiumOnly?: boolean;
 }
 
-export class Movie implements MediaInterface {
-  // ini adalah association karena Movie class memerlukan data dari interface MediaInterface
+abstract class Media implements MediaInterface {
+  // ini adalah association karena Media class memerlukan data dari interface MediaInterface
   // interface
   title: string;
   description: string;
@@ -34,15 +35,7 @@ export class Movie implements MediaInterface {
     this.premiumOnly = premiumOnly;
   }
 
-  // play(user?: User): void {
-  //   if (this.premiumOnly && (!user || !user.checkPremium())) {
-  //     alert("Sorry, this media is only available to premium users.");
-  //     return;
-  //   }
-
-  //   alert("Playing " + this.title);
-  // }
-  play(user?: User): boolean {
+  play(user?: UserAccount): boolean {
     if (this.premiumOnly && (!user || !user.checkPremium())) {
       return false;
     }
@@ -50,17 +43,24 @@ export class Movie implements MediaInterface {
     return true;
   }
 
-  getMovieDetails(): void {
-    // abstraction
-    alert(`${this.title} - ${this.genre} - ${this.rating}`);
+  abstract getMovieDetails(): void;
+  abstract getMovieDescription(): void;
+}
+
+export abstract class Movie extends Media {
+  // inheritance
+  constructor(
+    title: string,
+    description: string,
+    rating: number,
+    genre: string,
+    image?: string,
+    premiumOnly?: boolean
+  ) {
+    super(title, description, rating, genre, image, premiumOnly);
   }
 
-  getMovieDescription(): void {
-    // abstraction
-    Alert.alert("Description", `${this.description}`);
-  }
-
-  static createMovies(data: MediaInterface[]): Movie[] {
+  static createMovie(data: MediaInterface[]): Movie[] {
     const movies = data.map(
       (movieData: MediaInterface) =>
         new Movie(
@@ -75,9 +75,21 @@ export class Movie implements MediaInterface {
 
     return movies;
   }
+
+  getMovieDescription(): void {
+    alert(this.description);
+  }
+
+  getMovieDetails(): void {
+    alert(
+      `Title: ${this.title} | Rating: ${this.rating} | Genre: ${this.genre}`
+    );
+  }
+
+  // getMovieDetails() and getMovieDescription() is abstracted from Media class
 }
 
-export class Series extends Movie {
+export class Series extends Media {
   // inheritance
   constructor(
     title: string,
@@ -98,18 +110,17 @@ export class Series extends Movie {
           seriesData.description,
           seriesData.rating,
           seriesData.genre,
-          seriesData.image
+          seriesData.image,
+          seriesData.premiumOnly
         )
     );
 
     return series;
   }
 
-  play(): boolean {
-    // polymorphism (overriding)
-    // alert("Playing " + this.title);
-    return true;
+  // polymorphism
+  getMovieDescription(): void {
+    Alert.alert("Ini deskripsi", this.description);
   }
-
   // getMovieDetails() and getMovieDescription() is abstracted from Movie class
 }

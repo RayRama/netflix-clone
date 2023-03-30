@@ -1,4 +1,4 @@
-export class User {
+abstract class User {
   // encapsulation
   private _username: string;
   private _email: string;
@@ -19,6 +19,7 @@ export class User {
     this._username = username;
     this._email = email;
     this._password = password;
+    this._premium = premium;
     this._setPremium(premium);
   }
 
@@ -48,5 +49,21 @@ export class User {
 
   getUsername(): string {
     return this._username;
+  }
+}
+
+export class UserAccount extends User {
+  constructor({
+    username,
+    email,
+    password,
+    premium = false,
+  }: {
+    username: string;
+    email: string;
+    password: string;
+    premium?: boolean;
+  }) {
+    super({ username, email, password, premium });
   }
 }

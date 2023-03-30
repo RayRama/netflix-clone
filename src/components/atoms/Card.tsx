@@ -7,7 +7,7 @@ export default function Card({ children, onPress }) {
     <TouchableOpacity
       style={styles.container}
       onPress={onPress}
-      activeOpacity={0.5}
+      activeOpacity={0.7}
     >
       {children}
     </TouchableOpacity>
