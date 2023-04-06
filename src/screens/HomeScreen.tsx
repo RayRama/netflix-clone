@@ -1,11 +1,18 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import React from "react";
-import { Movie, Series } from "@models/Media";
-import { ContohUser, UserAccount, Animal, Rhino, Employee } from "@models/User";
-import MovieCard from "@molecules/MovieCard";
-import { ScrollView } from "react-native";
 import { MovieList } from "@data/MovieList";
 import { SeriesList } from "@data/SeriesList";
+// import { Movie, Series } from "@models/Media";
+import { Movie } from "@models/Movie";
+import { Series } from "@models/Series";
+import { UserAccount } from "@models/User";
+import MovieCard from "@molecules/MovieCard";
+import React from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function HomeScreen({ navigation }) {
   const [isPremium, setIsPremium] = React.useState(false);

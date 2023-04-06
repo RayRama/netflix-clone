@@ -9,7 +9,7 @@ interface MediaInterface {
   premiumOnly?: boolean;
 }
 
-abstract class Media implements MediaInterface {
+export abstract class Media implements MediaInterface {
   // ini adalah association karena Media class memerlukan data dari interface MediaInterface
   // interface
   title: string;
@@ -47,80 +47,80 @@ abstract class Media implements MediaInterface {
   abstract getMovieDescription(): void;
 }
 
-export abstract class Movie extends Media {
-  // inheritance
-  constructor(
-    title: string,
-    description: string,
-    rating: number,
-    genre: string,
-    image?: string,
-    premiumOnly?: boolean
-  ) {
-    super(title, description, rating, genre, image, premiumOnly);
-  }
+// export abstract class Movie extends Media {
+//   // inheritance
+//   constructor(
+//     title: string,
+//     description: string,
+//     rating: number,
+//     genre: string,
+//     image?: string,
+//     premiumOnly?: boolean
+//   ) {
+//     super(title, description, rating, genre, image, premiumOnly);
+//   }
 
-  static createMovie(data: MediaInterface[]): Movie[] {
-    const movies = data.map(
-      (movieData: MediaInterface) =>
-        new Movie(
-          movieData.title,
-          movieData.description,
-          movieData.rating,
-          movieData.genre,
-          movieData.image,
-          movieData.premiumOnly
-        )
-    );
+//   static createMovie(data: MediaInterface[]): Movie[] {
+//     const movies = data.map(
+//       (movieData: MediaInterface) =>
+//         new Movie(
+//           movieData.title,
+//           movieData.description,
+//           movieData.rating,
+//           movieData.genre,
+//           movieData.image,
+//           movieData.premiumOnly
+//         )
+//     );
 
-    return movies;
-  }
+//     return movies;
+//   }
 
-  getMovieDescription(): void {
-    alert(this.description);
-  }
+//   getMovieDescription(): void {
+//     alert(this.description);
+//   }
 
-  getMovieDetails(): void {
-    alert(
-      `Title: ${this.title} | Rating: ${this.rating} | Genre: ${this.genre}`
-    );
-  }
+//   getMovieDetails(): void {
+//     alert(
+//       `Title: ${this.title} | Rating: ${this.rating} | Genre: ${this.genre}`
+//     );
+//   }
 
-  // getMovieDetails() and getMovieDescription() is abstracted from Media class
-}
+//   // getMovieDetails() and getMovieDescription() is abstracted from Media class
+// }
 
-export class Series extends Media {
-  // inheritance
-  constructor(
-    title: string,
-    description: string,
-    rating: number,
-    genre: string,
-    image?: string,
-    public type: string
-  ) {
-    super(title, description, rating, genre, image);
-  }
+// export class Series extends Media {
+//   // inheritance
+//   constructor(
+//     title: string,
+//     description: string,
+//     rating: number,
+//     genre: string,
+//     image?: string,
+//     public type: string
+//   ) {
+//     super(title, description, rating, genre, image);
+//   }
 
-  static createSeries(data: MediaInterface[]): Series[] {
-    const series = data.map(
-      (seriesData: MediaInterface) =>
-        new Series(
-          seriesData.title,
-          seriesData.description,
-          seriesData.rating,
-          seriesData.genre,
-          seriesData.image,
-          seriesData.premiumOnly
-        )
-    );
+//   static createSeries(data: MediaInterface[]): Series[] {
+//     const series = data.map(
+//       (seriesData: MediaInterface) =>
+//         new Series(
+//           seriesData.title,
+//           seriesData.description,
+//           seriesData.rating,
+//           seriesData.genre,
+//           seriesData.image,
+//           seriesData.premiumOnly
+//         )
+//     );
 
-    return series;
-  }
+//     return series;
+//   }
 
-  // polymorphism
-  getMovieDescription(): void {
-    Alert.alert("Ini deskripsi", this.description);
-  }
-  // getMovieDetails() and getMovieDescription() is abstracted from Movie class
-}
+//   // polymorphism
+//   getMovieDescription(): void {
+//     Alert.alert("Ini deskripsi", this.description);
+//   }
+//   // getMovieDetails() and getMovieDescription() is abstracted from Movie class
+// }
