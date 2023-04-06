@@ -1,4 +1,5 @@
 import { Media } from "./Media";
+import { Alert } from "react-native";
 
 export class Series extends Media {
   // inheritance
@@ -32,7 +33,7 @@ export class Series extends Media {
 
   // polymorphism
   getMovieDescription(): void {
-    Alert.alert("Ini deskripsi", this.description);
+    Alert.alert(this.title, this.description);
   }
-  // getMovieDetails() and getMovieDescription() is abstracted from Movie class
+  // getMovieDescription() is abstracted from Movie class
 }

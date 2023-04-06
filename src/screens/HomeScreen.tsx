@@ -107,7 +107,7 @@ export default function HomeScreen({ navigation }) {
             genre={movie.genre}
             rating={movie.rating}
             premiumOnly={movie.premiumOnly}
-            onPress={() => movie.getMovieDescription()}
+            onPress={() => movie.getMovieDetails()}
             watchPress={() => handleNavigation(movie)} // ini adalah aggregration karena method play() movie memerlukan premiun user
           />
         ))}

@@ -1,4 +1,5 @@
 import { Media } from "./Media";
+import { Alert } from "react-native";
 
 export class Movie extends Media {
   // inheritance
@@ -29,15 +30,12 @@ export class Movie extends Media {
     return movies;
   }
 
-  getMovieDescription(): void {
-    alert(this.description);
-  }
-
   getMovieDetails(): void {
-    alert(
+    Alert.alert(
+      this.title,
       `Title: ${this.title} | Rating: ${this.rating} | Genre: ${this.genre}`
     );
   }
 
-  // getMovieDetails() and getMovieDescription() is abstracted from Media class
+  // getMovieDetails() is abstracted from Media class
 }
