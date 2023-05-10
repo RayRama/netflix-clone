@@ -1,13 +1,45 @@
-import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Contoh from "@screens/Contoh";
 import HomeScreen from "@screens/HomeScreen";
 import MovieScreen from "@screens/MovieScreen";
+import UserScreen from "@screens/UserScreen";
+import React from "react";
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function AppStack() {
+  const BottomBar = () => {
+    return (
+      <Tab.Navigator
+        screenOptions={{
+          tabBarStyle: {
+            position: "absolute",
+          },
+        }}
+      >
+        <Tab.Screen name="Home" component={Contoh}></Tab.Screen>
+        <Tab.Screen name="UserProfile" component={UserScreen}></Tab.Screen>
+      </Tab.Navigator>
+    );
+  };
   return (
     <Stack.Navigator>
+      <Stack.Screen
+        name="BottomApp"
+        component={BottomBar}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Contoh"
+        component={Contoh}
+        options={{
+          title: "Contoh",
+        }}
+      />
       <Stack.Screen
         name="Home"
         component={HomeScreen}
@@ -18,7 +50,7 @@ export default function AppStack() {
       <Stack.Screen
         name="MovieScreen"
         component={MovieScreen}
-        options={({ route }) => ({ title: route.params.movie.title })}
+        options={({ route }) => ({ title: route.params.media.title })}
       />
     </Stack.Navigator>
   );

@@ -9,9 +9,20 @@ export class Movie extends Media {
     rating: number,
     genre: string,
     image?: string,
-    premiumOnly?: boolean
+    totalEpisode?: number,
+    premiumOnly?: boolean,
+    type?: string
   ) {
-    super(title, description, rating, genre, image, premiumOnly);
+    super(
+      title,
+      description,
+      rating,
+      genre,
+      image,
+      totalEpisode,
+      premiumOnly,
+      type
+    );
   }
 
   static createMovie(data: MediaInterface[]): Movie[] {
@@ -23,19 +34,21 @@ export class Movie extends Media {
           movieData.rating,
           movieData.genre,
           movieData.image,
-          movieData.premiumOnly
+          movieData.totalEpisode,
+          movieData.premiumOnly,
+          movieData.type
         )
     );
 
     return movies;
   }
 
-  getMovieDetails(): void {
-    Alert.alert(
-      this.title,
-      `Title: ${this.title} | Rating: ${this.rating} | Genre: ${this.genre}`
-    );
+  // polymorphism
+  playMedia(user?: UserAccount): boolean {
+    if (this.premiumOnly && (!user || !user.checkPremium())) {
+      return false;
+    }
+    return true;
   }
-
   // getMovieDetails() is abstracted from Media class
 }

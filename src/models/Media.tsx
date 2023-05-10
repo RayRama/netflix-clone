@@ -6,7 +6,9 @@ interface MediaInterface {
   rating: number;
   genre: string;
   image?: string;
+  totalEpisode?: number;
   premiumOnly?: boolean;
+  type?: string;
 }
 
 export abstract class Media implements MediaInterface {
@@ -17,7 +19,9 @@ export abstract class Media implements MediaInterface {
   rating: number;
   genre: string;
   image?: string;
+  totalEpisode?: number;
   premiumOnly: boolean;
+  type?: string;
 
   constructor(
     title: string,
@@ -25,23 +29,19 @@ export abstract class Media implements MediaInterface {
     rating: number,
     genre: string,
     image?: string,
-    premiumOnly?: boolean
+    totalEpisode?: number,
+    premiumOnly?: boolean,
+    type?: string
   ) {
     this.title = title;
     this.description = description;
     this.rating = rating;
     this.genre = genre;
     this.image = image;
+    this.totalEpisode = totalEpisode;
     this.premiumOnly = premiumOnly;
+    this.type = type;
   }
 
-  play(user?: UserAccount): boolean {
-    if (this.premiumOnly && (!user || !user.checkPremium())) {
-      return false;
-    }
-    return true;
-  }
-
-  abstract getMovieDetails(): void;
-  abstract getMovieDescription(): void;
+  abstract playMedia(): any;
 }

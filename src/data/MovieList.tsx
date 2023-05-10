@@ -7,7 +7,9 @@ export const MovieList = [
     genre: "Crime",
     image:
       "https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg",
+    totalEpisode: 1,
     premiumOnly: false,
+    type: "Movie",
   },
   {
     title: "Avengers: Endgame",
@@ -17,7 +19,9 @@ export const MovieList = [
     genre: "Action, Adventure, Drama",
     image:
       "http://c.files.bbci.co.uk/7FF5/production/_106575723_gettyimages-1140253018.jpg",
+    totalEpisode: 1,
     premiumOnly: true,
+    type: "Movie",
   },
   {
     title: "The Dark Knight",
@@ -27,6 +31,8 @@ export const MovieList = [
     genre: "Action, Crime, Drama",
     image:
       "https://t-2.tstatic.net/style/foto/bank/images/the-dark-knight_20161204_171759.jpg",
+    totalEpisode: 1,
     premiumOnly: true,
+    type: "Movie",
   },
 ];

@@ -1,0 +1,43 @@
+export const MovieList2 = [
+  {
+    title: "The Shawshank Redemption",
+    genre: "Drama",
+    rating: 9.3,
+    cast: ["Tim Robbins", "Morgan Freeman", "Bob Gunton"],
+    director: "Frank Darabont",
+    year: 1994,
+    duration: 142,
+    poster: "https://i.imgur.com/SuW2ZlC.jpg",
+  },
+  {
+    title: "The Godfather",
+    genre: "Crime, Drama",
+    rating: 9.2,
+    cast: ["Marlon Brando", "Al Pacino", "James Caan"],
+    director: "Francis Ford Coppola",
+    year: 1972,
+    duration: 175,
+    poster: "https://i.imgur.com/Uzvny9I.jpg",
+  },
+  {
+    title: "The Godfather: Part II",
+    genre: "Crime, Drama",
+    rating: 9.0,
+    cast: ["Al Pacino", "Robert De Niro", "Robert Duvall"],
+    director: "Francis Ford Coppola",
+    year: 1974,
+    duration: 202,
+    poster: "https://i.imgur.com/abJNkWI.jpg",
+  },
+
+  {
+    title: "The Dark Knight",
+    genre: "Action, Crime, Drama",
+    rating: 9.0,
+    cast: ["Christian Bale", "Heath Ledger", "Aaron Eckhart"],
+    director: "Christopher Nolan",
+    year: 2008,
+    duration: 152,
+    poster: "https://i.imgur.com/3jLPB46.jpg",
+  },
+];

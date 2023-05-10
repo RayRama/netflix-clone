@@ -4,7 +4,7 @@ import { SeriesList } from "@data/SeriesList";
 import { Movie } from "@models/Movie";
 import { Series } from "@models/Series";
 import { UserAccount } from "@models/User";
-import MovieCard from "@molecules/MovieCard";
+import VideoCard from "@molecules/VideoCard";
 import React from "react";
 import {
   ScrollView,
@@ -37,9 +37,9 @@ export default function HomeScreen({ navigation }) {
     alert(`You are ${user1.checkPremium() ? "Premium" : "Free"} user`);
   }
 
-  function handleNavigation(detailMovie) {
-    if (detailMovie.play(user1)) {
-      navigation.navigate("MovieScreen", { movie: detailMovie });
+  function handleNavigation(media) {
+    if (media.playMedia(user1)) {
+      navigation.navigate("MovieScreen", { media });
     } else {
       alert("Sorry, this media is only available to premium users.");
     }
@@ -100,26 +100,29 @@ export default function HomeScreen({ navigation }) {
       </TouchableOpacity>
       <View style={styles.container}>
         {movies.map((movie, index) => (
-          <MovieCard
+          <VideoCard
             key={index}
             image={movie.image}
             title={movie.title}
             genre={movie.genre}
             rating={movie.rating}
             premiumOnly={movie.premiumOnly}
-            onPress={() => movie.getMovieDetails()}
+            type={movie.type}
+            // onPress={() => movie.getMovieDetails()}
             watchPress={() => handleNavigation(movie)} // ini adalah aggregration karena method play() movie memerlukan premiun user
           />
         ))}
         {series.map((series, index) => (
-          <MovieCard
+          <VideoCard
             key={index}
             image={series.image}
             title={series.title}
             genre={series.genre}
             rating={series.rating}
-            type="Series"
-            onPress={() => series.getMovieDescription()}
+            premiumOnly={series.premiumOnly}
+            totalEpisode={series.totalEpisode}
+            type={series.type}
+            // onPress={() => series.getMovieDescription()}
             watchPress={() => handleNavigation(series)}
           />
         ))}

@@ -3,13 +3,18 @@ import React from "react";
 import MediaPlayer from "@molecules/MediaPlayer";
 
 export default function MovieScreen({ route }) {
-  const { movie } = route.params;
+  const { media } = route.params;
   return (
     <View style={styles.main}>
       <MediaPlayer />
       <View style={styles.movieDetail}>
-        <Text style={styles.movieTitle}>{movie.title}</Text>
-        <Text style={styles.movieDescription}>{movie.description}</Text>
+        <Text style={styles.movieTitle}>{media.title}</Text>
+        <Text style={styles.movieDescription}>{media.description}</Text>
+        {media.totalEpisode > 1 && (
+          <Text
+            style={styles.movieDescription}
+          >{`Total Episode: ${media.totalEpisode}`}</Text>
+        )}
       </View>
     </View>
   );

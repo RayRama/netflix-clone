@@ -10,9 +10,20 @@ export class Series extends Media {
     rating: number,
     genre: string,
     image?: string,
-    public type: string
+    totalEpisode?: number,
+    premiumOnly?: boolean,
+    type?: string
   ) {
-    super(title, description, rating, genre, image);
+    super(
+      title,
+      description,
+      rating,
+      genre,
+      image,
+      totalEpisode,
+      premiumOnly,
+      type
+    );
   }
 
   static createSeries(data: MediaInterface[]): Series[] {
@@ -24,7 +35,9 @@ export class Series extends Media {
           seriesData.rating,
           seriesData.genre,
           seriesData.image,
-          seriesData.premiumOnly
+          seriesData.totalEpisode,
+          seriesData.premiumOnly,
+          seriesData.type
         )
     );
 
@@ -32,8 +45,7 @@ export class Series extends Media {
   }
 
   // polymorphism
-  getMovieDescription(): void {
-    Alert.alert(this.title, this.description);
+  playMedia(): boolean {
+    return true;
   }
-  // getMovieDescription() is abstracted from Movie class
 }

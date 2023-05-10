@@ -3,15 +3,16 @@ import React from "react";
 import Card from "../atoms/Card";
 import { TouchableOpacity } from "react-native";
 
-export default function MovieCard({
+export default function videoCard({
   image,
   title,
   genre,
   rating,
-  type = "Movie",
+  type,
   onPress,
   watchPress,
   premiumOnly,
+  totalEpisode,
 }) {
   return (
     <Card onPress={onPress}>
@@ -47,6 +48,7 @@ export default function MovieCard({
         <Text>{`Genres: ${genre}`}</Text>
         <Text>{`Rating: ${rating}/10`}</Text>
         <Text>{`Type: ${type}`}</Text>
+        {type === "Series" && <Text>{`Total Episode: ${totalEpisode}`}</Text>}
         <TouchableOpacity
           onPress={watchPress}
           style={{

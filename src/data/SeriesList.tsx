@@ -7,6 +7,9 @@ export const SeriesList = [
     genre: "Animation, Action, Adventure",
     image:
       "https://cdn.oneesports.id/cdn-data/sites/2/2022/03/Naruto-Uzumaki.jpg",
+    totalEpisode: 500,
+    premiumOnly: false,
+    type: "Series",
   },
   {
     title: "One Piece",
@@ -16,6 +19,9 @@ export const SeriesList = [
     genre: "Animation, Action, Adventure",
     image:
       "http://pic0.iqiyipic.com/image/20211206/f2/2e/a_100421840_m_601_en_m1_1013_638.jpg",
+    totalEpisode: 1000,
+    premiumOnly: false,
+    type: "Series",
   },
   {
     title: "Boruto: Naruto Next Generations",
@@ -25,5 +31,8 @@ export const SeriesList = [
     genre: "Animation, Action, Adventure",
     image:
       "https://www.viu.com/ott/id/articles/wp-content/uploads/2022/02/anime-boruto-naruto-next-generations-op-7-viu.jpg",
+    totalEpisode: 200,
+    premiumOnly: false,
+    type: "Series",
   },
 ];
