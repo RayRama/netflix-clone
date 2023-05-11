@@ -15,7 +15,6 @@ export class NetflixUser extends User {
 
   subscribe(subscription: Subscription) {
     // this.subscription = subscription;
-
     if (this.isSubs) {
       console.log(`User ${this.getUsername()} has already subscribed.`);
       return;
