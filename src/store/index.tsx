@@ -19,4 +19,4 @@ const initialUser: IUser = {
   myList: [],
 };
 
-const NetflixUserAtom = atom<IUser>(initialUser);
+export const NetflixUserAtom = atom<IUser>(initialUser);

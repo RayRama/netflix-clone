@@ -2,7 +2,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Contoh from "@screens/Contoh";
 import HomeScreen from "@screens/HomeScreen";
+import LoginScreen from "@screens/LoginScreen";
 import MovieScreen from "@screens/MovieScreen";
+import RegisterScreen from "@screens/RegisterScreen";
 import UserScreen from "@screens/UserScreen";
 import React from "react";
 
@@ -26,6 +28,20 @@ export default function AppStack() {
   };
   return (
     <Stack.Navigator>
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen
         name="BottomApp"
         component={BottomBar}

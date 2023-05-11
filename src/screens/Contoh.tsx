@@ -8,23 +8,34 @@ import { Text, View, Image, ScrollView, Button } from "react-native";
 import VideoCard from "@molecules/VideoCard";
 import { NetflixUser } from "@models/inheritance/NetflixUser";
 import { BasicSubscription } from "@models/abstract/Subscription";
+import { useAtom } from "jotai";
+import { NetflixUserAtom } from "@store/";
 
 export default function Contoh() {
   const [movies, setMovies] = React.useState<Movie[]>([]);
   const [tvShows, setTvShows] = React.useState<TVShow[]>([]);
   const user = new NetflixUser("John", "email", "password");
   const basicPlan = new BasicSubscription();
+  const [dataUser, setDataUser] = useAtom(NetflixUserAtom);
 
-  const loginHandle = () => {
-    user.login("password");
+  const userDataHandle = () => {
+    console.log(dataUser);
   };
 
   const subHandle = () => {
     user.subscribe(basicPlan);
+    setDataUser({
+      ...dataUser,
+      subscription: basicPlan,
+    });
   };
 
   const unsubHandle = () => {
     user.unsubscribe();
+    setDataUser({
+      ...dataUser,
+      subscription: null,
+    });
   };
 
   React.useEffect(() => {
@@ -40,7 +51,7 @@ export default function Contoh() {
 
   return (
     <ScrollView>
-      <Button title="Login" onPress={() => loginHandle()}></Button>
+      <Button title="Check UserData" onPress={() => userDataHandle()}></Button>
       <Button title="Upgrade" onPress={() => subHandle()}></Button>
       <Button title="Unsub" onPress={() => unsubHandle()}></Button>
       <Text>My Movies:</Text>
