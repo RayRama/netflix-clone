@@ -1,14 +1,15 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Contoh from "@screens/Contoh";
+import DetailScreen from "@screens/DetailScreen";
 import HomeScreen from "@screens/HomeScreen";
 import LoginScreen from "@screens/LoginScreen";
 import MovieScreen from "@screens/MovieScreen";
 import RegisterScreen from "@screens/RegisterScreen";
 import UserScreen from "@screens/UserScreen";
+import { NetflixUserAtom } from "@store/";
 import { useAtom } from "jotai";
 import React from "react";
-import { NetflixUserAtom } from "@store/";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -30,9 +31,44 @@ export default function AppStack() {
       </Tab.Navigator>
     );
   };
+
   return (
     <Stack.Navigator>
-      {!dataUser.loggedIn ? (
+      {dataUser.loggedIn ? (
+        <>
+          <Stack.Screen
+            name="BottomApp"
+            component={BottomBar}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Contoh"
+            component={Contoh}
+            options={{
+              title: "Contoh",
+            }}
+          />
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{
+              title: "Netflix Clone",
+            }}
+          />
+          <Stack.Screen
+            name="DetailMedia"
+            component={DetailScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="MovieScreen"
+            component={MovieScreen}
+            options={({ route }) => ({ title: route.params.media.title })}
+          />
+        </>
+      ) : (
         <>
           <Stack.Screen
             name="Login"
@@ -41,6 +77,7 @@ export default function AppStack() {
               title: "Login",
             }}
           />
+
           <Stack.Screen
             name="Register"
             component={RegisterScreen}
@@ -49,33 +86,7 @@ export default function AppStack() {
             }}
           />
         </>
-      ) : null}
-      <Stack.Screen
-        name="BottomApp"
-        component={BottomBar}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="Contoh"
-        component={Contoh}
-        options={{
-          title: "Contoh",
-        }}
-      />
-      <Stack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          title: "Netflix Clone",
-        }}
-      />
-      <Stack.Screen
-        name="MovieScreen"
-        component={MovieScreen}
-        options={({ route }) => ({ title: route.params.media.title })}
-      />
+      )}
     </Stack.Navigator>
   );
 }

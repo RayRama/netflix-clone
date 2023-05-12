@@ -24,23 +24,10 @@ export default function LoginScreen({ navigation }) {
         loggedIn: true,
       });
       user.login(password);
-      navigation.navigate("BottomApp");
     } else {
       alert("Username or password not found");
       return;
     }
-    // if (user.loggedIn) {
-    //   setDataUser({
-    //     ...dataUser,
-    //     username,
-    //     email: "email",
-    //     password,
-    //     isLogged: true,
-    //   });
-    //   navigation.navigate("BottomApp");
-    // } else {
-    //   alert("Wrong password");
-    // }
   };
 
   return (

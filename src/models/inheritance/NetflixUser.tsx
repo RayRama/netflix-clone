@@ -28,7 +28,7 @@ export class NetflixUser extends User {
 
   unsubscribe() {
     this._subscription = null;
-    console.log(`You have successfully unsubscribed.`);
+    alert(`You have successfully unsubscribed.`);
   }
 
   login(password: string): boolean {

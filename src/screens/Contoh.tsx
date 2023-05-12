@@ -6,6 +6,7 @@ import { TVShow } from "@models/abstract/TVShow";
 import { Loader } from "@models/inheritance/Loader";
 import { NetflixUser } from "@models/inheritance/NetflixUser";
 import VideoCard from "@molecules/VideoCard";
+import { CommonActions } from "@react-navigation/native";
 import { NetflixUserAtom } from "@store/";
 import { useAtom } from "jotai";
 import React from "react";
@@ -51,15 +52,15 @@ export default function Contoh({ navigation }) {
   };
 
   const logoutHandle = () => {
-    user.logout();
     setDataUser({
       ...dataUser,
       loggedIn: false,
     });
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Login" }],
-    });
+    user.logout();
+  };
+
+  const tempMediaHandle = (media) => {
+    navigation.navigate("DetailMedia", { media });
   };
 
   React.useEffect(() => {
@@ -74,7 +75,12 @@ export default function Contoh({ navigation }) {
   }, []);
 
   return (
-    <ScrollView>
+    <ScrollView
+      style={{
+        flex: 1,
+        padding: 20,
+      }}
+    >
       <Button title="Check UserData" onPress={() => userDataHandle()}></Button>
       <Button title="Upgrade" onPress={() => subHandle()}></Button>
       <Button title="Unsub" onPress={() => unsubHandle()}></Button>
@@ -99,6 +105,7 @@ export default function Contoh({ navigation }) {
           title={movie.title}
           genre={movie.genre}
           rating={movie.rating}
+          onPress={() => tempMediaHandle(movie)}
         />
       ))}
 

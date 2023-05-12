@@ -3,7 +3,7 @@
 ## Prioritas
 
 - User bisa melihat list film = DONE
-- User bisa melihat detail film
+- User bisa melihat detail film = DONE
 
 - User bisa melihat list series = DONE
 - User bisa melihat detail series
