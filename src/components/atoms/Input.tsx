@@ -13,7 +13,6 @@ export default function Input({ label, placeholder, ...props }) {
 const styles = StyleSheet.create({
   label: {
     fontSize: 16,
-    fontFamily: "Poppins-Regular",
     color: "#020202",
   },
   input: {
