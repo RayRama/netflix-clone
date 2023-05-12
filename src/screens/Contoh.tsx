@@ -1,40 +1,64 @@
-import { Movie } from "@models/abstract/Movie";
-import { TVShow } from "@models/abstract/TVShow";
-import { Loader } from "@models/inheritance/Loader";
 import { MovieList2 } from "@data/MovieList2";
 import { TVShowList } from "@data/TVShowList";
-import React from "react";
-import { Text, View, Image, ScrollView, Button } from "react-native";
-import VideoCard from "@molecules/VideoCard";
-import { NetflixUser } from "@models/inheritance/NetflixUser";
+import { Movie } from "@models/abstract/Movie";
 import { BasicSubscription } from "@models/abstract/Subscription";
-import { useAtom } from "jotai";
+import { TVShow } from "@models/abstract/TVShow";
+import { Loader } from "@models/inheritance/Loader";
+import { NetflixUser } from "@models/inheritance/NetflixUser";
+import VideoCard from "@molecules/VideoCard";
 import { NetflixUserAtom } from "@store/";
+import { useAtom } from "jotai";
+import React from "react";
+import { Button, Image, ScrollView, Text, View } from "react-native";
 
-export default function Contoh() {
+export default function Contoh({ navigation }) {
   const [movies, setMovies] = React.useState<Movie[]>([]);
   const [tvShows, setTvShows] = React.useState<TVShow[]>([]);
-  const user = new NetflixUser("John", "email", "password");
   const basicPlan = new BasicSubscription();
   const [dataUser, setDataUser] = useAtom(NetflixUserAtom);
+  const user = new NetflixUser(
+    dataUser.username,
+    dataUser.email,
+    dataUser.password
+  );
+
+  function subHandle() {
+    if (dataUser.subscription === null) {
+      user.subscribe(basicPlan);
+      setDataUser({
+        ...dataUser,
+        subscription: user.getSubscription(),
+      });
+    } else {
+      alert("You already have a subscription.");
+    }
+  }
 
   const userDataHandle = () => {
     console.log(dataUser);
   };
 
-  const subHandle = () => {
-    user.subscribe(basicPlan);
-    setDataUser({
-      ...dataUser,
-      subscription: basicPlan,
-    });
+  const unsubHandle = () => {
+    if (dataUser.subscription !== null) {
+      user.unsubscribe();
+      setDataUser({
+        ...dataUser,
+        subscription: null,
+      });
+    } else {
+      alert("You don't have a subscription.");
+    }
   };
 
-  const unsubHandle = () => {
-    user.unsubscribe();
+  const logoutHandle = () => {
+    user.logout();
     setDataUser({
       ...dataUser,
-      subscription: null,
+      loggedIn: false,
+    });
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Login" }],
     });
   };
 
@@ -54,6 +78,7 @@ export default function Contoh() {
       <Button title="Check UserData" onPress={() => userDataHandle()}></Button>
       <Button title="Upgrade" onPress={() => subHandle()}></Button>
       <Button title="Unsub" onPress={() => unsubHandle()}></Button>
+      <Button title="Logout" onPress={() => logoutHandle()}></Button>
       <Text>My Movies:</Text>
       {movies.map((movie: Movie) => (
         // <View key={movie.title}>

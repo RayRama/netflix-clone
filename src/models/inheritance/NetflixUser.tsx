@@ -1,57 +1,48 @@
-import { User } from "@models/abstract/User";
 import { Content } from "@models/abstract/Content";
 import { Subscription } from "@models/abstract/Subscription";
+import { User } from "@models/abstract/User";
+import { useAtom } from "jotai";
+import { NetflixUserAtom } from "@store/";
 
 export class NetflixUser extends User {
   password: string;
+  private _subscription: Subscription;
+  public isSubs: boolean;
+
   mylist: Content[];
-  private isSubs: boolean;
 
   constructor(name: string, email: string, password: string) {
     super(name, email);
     this.password = password;
-    // this.mylist = [];
+    this.mylist = [];
   }
 
-  subscribe(subscription: Subscription) {
-    // this.subscription = subscription;
-    if (this.isSubs) {
-      console.log(`User ${this.getUsername()} has already subscribed.`);
-      return;
-    }
+  subscribe(subs: Subscription): void {
+    this._subscription = subs;
+    alert(`You have successfully subscribed to ${subs.getName()} Plan.`);
+  }
 
-    this.setSubscribe(subscription);
-    this.isSubs = true;
-    console.log(
-      `User ${this.getUsername()} has subscribed to ${subscription._name} plan.`
-    );
+  getSubscription() {
+    return this._subscription;
   }
 
   unsubscribe() {
-    if (this.isSubs) {
-      console.log(`User ${this.getUsername()} has unsubscribed from plan.`);
-      this.setSubscribe(null);
-      this.isSubs = false;
-    } else {
-      console.log(`User ${this.name} has no subscription.`);
-    }
+    this._subscription = null;
+    console.log(`You have successfully unsubscribed.`);
   }
 
   login(password: string): boolean {
     if (password === this.password) {
       console.log(`User ${this.getUsername()} has logged in.`);
-      this.setLoggedIn(true);
       return true;
     } else {
-      this.setLoggedIn(false);
       console.log(`Invalid password.`);
       return false;
     }
   }
 
   logout() {
-    console.log(`User ${this.name} has logged out.`);
-    this.loggedIn = false;
+    alert(`User ${this.getUsername()} has logged out.`);
   }
 
   addToMyList(content: Content) {

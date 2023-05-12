@@ -6,12 +6,16 @@ import LoginScreen from "@screens/LoginScreen";
 import MovieScreen from "@screens/MovieScreen";
 import RegisterScreen from "@screens/RegisterScreen";
 import UserScreen from "@screens/UserScreen";
+import { useAtom } from "jotai";
 import React from "react";
+import { NetflixUserAtom } from "@store/";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function AppStack() {
+  const [dataUser] = useAtom(NetflixUserAtom);
+
   const BottomBar = () => {
     return (
       <Tab.Navigator
@@ -28,20 +32,24 @@ export default function AppStack() {
   };
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="Login"
-        component={LoginScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="Register"
-        component={RegisterScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
+      {!dataUser.loggedIn ? (
+        <>
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{
+              title: "Login",
+            }}
+          />
+          <Stack.Screen
+            name="Register"
+            component={RegisterScreen}
+            options={{
+              title: "Register",
+            }}
+          />
+        </>
+      ) : null}
       <Stack.Screen
         name="BottomApp"
         component={BottomBar}

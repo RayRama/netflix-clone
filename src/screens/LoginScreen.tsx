@@ -4,6 +4,7 @@ import Input from "@atoms/Input";
 import { NetflixUser } from "@models/inheritance/NetflixUser";
 import { useAtom } from "jotai";
 import { NetflixUserAtom } from "@store/";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginScreen({ navigation }) {
   const [username, setUsername] = React.useState("");
@@ -11,20 +12,35 @@ export default function LoginScreen({ navigation }) {
   const [dataUser, setDataUser] = useAtom(NetflixUserAtom);
 
   const handleLogin = () => {
-    const user = new NetflixUser(username, "email", password);
-    user.login(password);
-    if (user.loggedIn) {
+    if (
+      dataUser.username == username &&
+      dataUser.password == password &&
+      username.length > 0 &&
+      password.length > 0
+    ) {
+      const user = new NetflixUser(username, dataUser.email, password);
       setDataUser({
         ...dataUser,
-        username,
-        email: "email",
-        password,
-        isLogged: true,
+        loggedIn: true,
       });
+      user.login(password);
       navigation.navigate("BottomApp");
     } else {
-      alert("Wrong password");
+      alert("Username or password not found");
+      return;
     }
+    // if (user.loggedIn) {
+    //   setDataUser({
+    //     ...dataUser,
+    //     username,
+    //     email: "email",
+    //     password,
+    //     isLogged: true,
+    //   });
+    //   navigation.navigate("BottomApp");
+    // } else {
+    //   alert("Wrong password");
+    // }
   };
 
   return (
@@ -36,6 +52,7 @@ export default function LoginScreen({ navigation }) {
         keyboardType="default"
         value={username}
         onChangeText={(text) => setUsername(text)}
+        autoCapitalize="none"
       />
       <Input
         label="Password"

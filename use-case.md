@@ -2,16 +2,16 @@
 
 ## Prioritas
 
-- User bisa melihat list film
+- User bisa melihat list film = DONE
 - User bisa melihat detail film
 
-- User bisa melihat series
+- User bisa melihat list series = DONE
 - User bisa melihat detail series
 
-- User bisa login dan logout
+- User bisa login dan logout = DONE
 
-- User bisa berlangganan premium
-- User bisa berhenti berlangganan premium
+- User bisa berlangganan premium = DONE
+- User bisa berhenti berlangganan premium = DONE
 
 ### User
 

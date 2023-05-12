@@ -6,7 +6,7 @@ interface IUser {
   username: string;
   password: string;
   subscription: Subscription;
-  isLogged: boolean;
+  loggedIn: boolean;
   myList: any[];
 }
 
@@ -15,7 +15,7 @@ const initialUser: IUser = {
   username: "",
   password: "",
   subscription: null,
-  isLogged: false,
+  loggedIn: false,
   myList: [],
 };
 

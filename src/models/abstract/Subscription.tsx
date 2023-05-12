@@ -15,6 +15,25 @@ export abstract class Subscription {
     this._maxStreams = maxStreams;
     this._maxDevices = maxDevices;
   }
+
+  // getter
+  getName() {
+    return this._name;
+  }
+
+  getPrice() {
+    return this._price;
+  }
+
+  getMaxStreams() {
+    return this._maxStreams;
+  }
+}
+
+export class DefaultPlan extends Subscription {
+  constructor() {
+    super("Default", 0, 1, 1);
+  }
 }
 
 export class BasicSubscription extends Subscription {
