@@ -159,7 +159,14 @@ export default function AppStack() {
           <Stack.Screen
             name="DetailMedia"
             component={DetailScreen}
-            options={{ headerShown: false }}
+            options={{
+              headerTitle: "",
+              headerStyle: {
+                backgroundColor: "#000000",
+                color: "white",
+              },
+              headerTintColor: "white",
+            }}
           />
 
           <Stack.Screen

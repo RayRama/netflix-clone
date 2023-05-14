@@ -23,6 +23,7 @@ export abstract class Content extends Media {
   }
 
   abstract play(): void;
+  abstract download(): void;
   abstract pause(): void;
   abstract resume(): void;
   abstract stop(): void;

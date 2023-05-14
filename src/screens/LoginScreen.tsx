@@ -64,7 +64,7 @@ export default function LoginScreen({ navigation }) {
         </Pressable>
         <View style={{ flex: 1, flexDirection: "row", marginTop: 20 }}>
           <Text style={{ textAlign: "center", color: "white" }}>
-            Don't have an account? Click{" "}
+            Belum punya akun? Klik{" "}
           </Text>
           <Text
             style={{
@@ -74,7 +74,7 @@ export default function LoginScreen({ navigation }) {
             }}
             onPress={() => navigation.navigate("Register")}
           >
-            Here
+            Disini
           </Text>
         </View>
       </View>

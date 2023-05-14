@@ -49,10 +49,19 @@ export abstract class Movie extends VideoContent {
 
   play(dataUser: any) {
     if (dataUser.subscription !== null) {
-      console.log(`You are watching ${this.title}.`);
+      alert(`You are watching ${this.title}.`);
       return true;
     }
 
     alert(`You need to subscribe to watch ${this.title}.`);
+  }
+
+  download(dataUser: any) {
+    if (dataUser.subscription !== null) {
+      alert(`Downloading ${this.title}.`);
+      return true;
+    }
+
+    alert(`You need to subscribe to download ${this.title}.`);
   }
 }
