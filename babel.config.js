@@ -20,7 +20,7 @@ module.exports = function (api) {
             "@data": "./src/data",
             "@store": "./src/store",
           },
-          extensions: [".js", ".jsx", ".ts", ".tsx"],
+          extensions: [".js", ".jsx", ".ts", ".tsx", ".png", ".jpg", ".svg"],
         },
       ],
     ],

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, Pressable } from "react-native";
 import React from "react";
 import Input from "@atoms/Input";
 import { useAtom } from "jotai";
@@ -12,6 +12,10 @@ export default function RegisterScreen({ navigation }) {
   const [dataUser, setDataUser] = useAtom(NetflixUserAtom);
 
   const registerHandle = () => {
+    if (email.length < 1 || username.length < 1 || password.length < 1) {
+      alert("Please fill all the fields");
+      return;
+    }
     alert("Register success");
     setDataUser({
       ...dataUser,
@@ -25,42 +29,72 @@ export default function RegisterScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text>Register</Text>
-      <Input
-        label="Email"
-        placeholder="Type your email address"
-        keyboardType="email-address"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-        autoCapitalize="none"
-      />
-
-      <Input
-        label="Username"
-        placeholder="Type your username"
-        keyboardType="default"
-        value={username}
-        onChangeText={(text) => setUsername(text)}
-        autoCapitalize="none"
-      />
-
-      <Input
-        label="Password"
-        placeholder="Type your password"
-        keyboardType="default"
-        secureTextEntry
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-        autoCapitalize="none"
-      />
-      <Button title="Register" onPress={() => registerHandle()} />
+      <View style={styles.loginSection}>
+        <Text style={{ fontSize: 30, color: "white", fontWeight: "bold" }}>
+          Sign Up
+        </Text>
+        <Input
+          placeholder="Email"
+          keyboardType="default"
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+          autoCapitalize="none"
+        />
+        <Input
+          placeholder="Username"
+          keyboardType="default"
+          value={username}
+          onChangeText={(text) => setUsername(text)}
+          autoCapitalize="none"
+        />
+        <Input
+          placeholder="Password"
+          keyboardType="default"
+          secureTextEntry
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+          autoCapitalize="none"
+        />
+        <Pressable
+          onPress={() => registerHandle()}
+          style={{
+            backgroundColor: "#e50914",
+            padding: 10,
+            borderRadius: 8,
+            marginTop: 15,
+          }}
+        >
+          <Text style={{ color: "white", textAlign: "center" }}>Register</Text>
+        </Pressable>
+        <View style={{ flex: 1, flexDirection: "row", marginTop: 20 }}>
+          <Text style={{ textAlign: "center", color: "white" }}>
+            Sudah punya akun? Login{" "}
+          </Text>
+          <Text
+            style={{
+              textAlign: "center",
+              color: "white",
+              fontWeight: "bold",
+            }}
+            onPress={() => navigation.pop()}
+          >
+            Disini
+          </Text>
+        </View>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    marginTop: 30,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#212121",
+  },
+  loginSection: {
+    width: "80%",
+    height: "50%",
   },
 });

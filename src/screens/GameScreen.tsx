@@ -3,8 +3,8 @@ import React from "react";
 
 export default function GameScreen() {
   return (
-    <View>
-      <Text>GameScreen</Text>
+    <View style={{ marginLeft: 10, marginTop: 20 }}>
+      <Text>Sedang dalam tahap pengembangan</Text>
     </View>
   );
 }

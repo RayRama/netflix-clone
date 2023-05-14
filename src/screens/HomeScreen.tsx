@@ -1,142 +1,131 @@
-import { MovieList } from "@data/MovieList";
-import { SeriesList } from "@data/SeriesList";
-// import { Movie, Series } from "@models/Media";
-import { Movie } from "@models/Movie";
-import { Series } from "@models/Series";
-import { UserAccount } from "@models/User";
+import { Choice, Popular, Premiere, Trending } from "@data/MovieList2";
+import { TVShowList } from "@data/TVShowList";
+import { Movie } from "@models/abstract/Movie";
+import { TVShow } from "@models/abstract/TVShow";
+import { Loader } from "@models/inheritance/Loader";
+import { NetflixUser } from "@models/inheritance/NetflixUser";
+import PremiereMedia from "@molecules/PremiereMedia";
 import VideoCard from "@molecules/VideoCard";
+import { NetflixUserAtom } from "@store/";
+import { useAtom } from "jotai";
 import React from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen({ navigation }) {
-  const [isPremium, setIsPremium] = React.useState(false);
-  const movies = Movie.createMovie(MovieList);
-  const series = Series.createSeries(SeriesList);
-  const user1 = new UserAccount({
-    username: "John",
-    email: "john@email.com",
-    password: "123456",
-    premium: false,
-  });
+  const [tvShows, setTvShows] = React.useState<TVShow[]>([]);
+  const [premiere, setPremiere] = React.useState<Movie[]>([]);
+  const [trending, setTrending] = React.useState<Movie[]>([]);
+  const [popular, setPopular] = React.useState<Movie[]>([]);
+  const [choice, setChoice] = React.useState<Movie[]>([]);
+  const [dataUser, setDataUser] = useAtom(NetflixUserAtom);
+  const user = new NetflixUser(
+    dataUser.username,
+    dataUser.email,
+    dataUser.password
+  );
 
-  function upgradeToPremium() {
-    user1.upgradeToPremium();
-  }
+  const tempMediaHandle = (media) => {
+    navigation.navigate("DetailMedia", { media });
+  };
 
-  function downgradeToFree() {
-    user1.downgradeToFree();
-  }
-
-  function checkPremium() {
-    alert(`You are ${user1.checkPremium() ? "Premium" : "Free"} user`);
-  }
-
-  function handleNavigation(media) {
-    if (media.playMedia(user1)) {
-      navigation.navigate("MovieScreen", { media });
-    } else {
-      alert("Sorry, this media is only available to premium users.");
+  React.useEffect(() => {
+    function loadData() {
+      const tvShows = Loader.loadTVShows(TVShowList);
+      const premiere = Loader.loadMovies(Premiere);
+      const trending = Loader.loadMovies(Trending);
+      const popular = Loader.loadMovies(Popular);
+      const choice = Loader.loadMovies(Choice);
+      setTvShows(tvShows);
+      setPremiere(premiere);
+      setTrending(trending);
+      setPopular(popular);
+      setChoice(choice);
     }
-  }
+    loadData();
+  }, []);
 
   return (
-    <ScrollView>
-      <Text
-        style={{
-          textAlign: "left",
-          paddingLeft: 10,
-          marginTop: 10,
-          fontSize: 20,
-          fontWeight: "bold",
-          color: "#000",
-        }}
-      >
-        {`Welcome ${user1.getUsername()}`}
-      </Text>
-      <TouchableOpacity
-        title="Upgrade to Premium"
-        onPress={() => upgradeToPremium()}
-        style={{
-          backgroundColor: "green",
-          padding: 10,
-          margin: 10,
-          borderRadius: 10,
-          alignItems: "center",
-        }}
-      >
-        <Text style={{ color: "white" }}>Upgrade to Premium</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        title="Downgrade to Free"
-        onPress={() => downgradeToFree()}
-        style={{
-          backgroundColor: "red",
-          padding: 10,
-          margin: 10,
-          borderRadius: 10,
-          alignItems: "center",
-        }}
-      >
-        <Text style={{ color: "white" }}>Downgrade to Free</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        title="Downgrade to Free"
-        onPress={() => checkPremium()}
-        style={{
-          backgroundColor: "blue",
-          padding: 10,
-          margin: 10,
-          borderRadius: 10,
-          alignItems: "center",
-        }}
-      >
-        <Text style={{ color: "white" }}>Check premium</Text>
-      </TouchableOpacity>
-      <View style={styles.container}>
-        {movies.map((movie, index) => (
-          <VideoCard
-            key={index}
-            image={movie.image}
-            title={movie.title}
-            genre={movie.genre}
-            rating={movie.rating}
-            premiumOnly={movie.premiumOnly}
-            type={movie.type}
-            // onPress={() => movie.getMovieDetails()}
-            watchPress={() => handleNavigation(movie)} // ini adalah aggregration karena method play() movie memerlukan premiun user
-          />
-        ))}
-        {series.map((series, index) => (
-          <VideoCard
-            key={index}
-            image={series.image}
-            title={series.title}
-            genre={series.genre}
-            rating={series.rating}
-            premiumOnly={series.premiumOnly}
-            totalEpisode={series.totalEpisode}
-            type={series.type}
-            // onPress={() => series.getMovieDescription()}
-            watchPress={() => handleNavigation(series)}
-          />
-        ))}
+    <ScrollView
+      style={{
+        flex: 1,
+        flexGrow: 1,
+        backgroundColor: "#000",
+      }}
+      contentContainerStyle={{
+        paddingBottom: 90,
+      }}
+    >
+      <PremiereMedia
+        key={premiere[0]?.title}
+        image={premiere[0]?.poster}
+        genre={premiere[0]?.genre}
+        infoPress={() => tempMediaHandle(premiere[0])}
+        playPress={() => premiere[0].play(dataUser)}
+      />
+
+      <View style={styles.category}>
+        <Text style={styles.categoryTitle}>Populer di Netflix</Text>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          {popular.map((movie: Movie, index) => (
+            <VideoCard
+              key={index}
+              image={movie.poster}
+              onPress={() => tempMediaHandle(movie)}
+            />
+          ))}
+        </ScrollView>
+      </View>
+
+      <View style={styles.category}>
+        <Text style={styles.categoryTitle}>Sedang Tren Sekarang</Text>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          {trending.map((movie: Movie, index) => (
+            <VideoCard
+              key={index}
+              image={movie.poster}
+              onPress={() => tempMediaHandle(movie)}
+            />
+          ))}
+        </ScrollView>
+      </View>
+      <View style={styles.category}>
+        <Text style={styles.categoryTitle}>TV Show</Text>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          {tvShows.map((tvShow: TVShow, index) => (
+            <VideoCard
+              key={index}
+              image={tvShow.poster}
+              onPress={() => tempMediaHandle(tvShow)}
+            />
+          ))}
+        </ScrollView>
+      </View>
+      <View style={styles.category}>
+        <Text style={styles.categoryTitle}>Pilihan Netflix</Text>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          {choice.map((movie: Movie, index) => (
+            <VideoCard
+              key={index}
+              image={movie.poster}
+              onPress={() => tempMediaHandle(movie)}
+            />
+          ))}
+        </ScrollView>
       </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-    gap: 10,
+  category: {
+    width: "100%",
+    paddingHorizontal: 10,
+  },
+  categoryTitle: {
+    color: "#fff",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 20,
+    marginBottom: 10,
   },
 });

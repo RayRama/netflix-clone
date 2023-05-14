@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, Pressable } from "react-native";
 import React from "react";
 import Input from "@atoms/Input";
 import { NetflixUser } from "@models/inheritance/NetflixUser";
@@ -32,46 +32,65 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text>LoginScreen</Text>
-      <Input
-        label="Username"
-        placeholder="Type your Username"
-        keyboardType="default"
-        value={username}
-        onChangeText={(text) => setUsername(text)}
-        autoCapitalize="none"
-      />
-      <Input
-        label="Password"
-        placeholder="Type your password"
-        keyboardType="default"
-        secureTextEntry
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-        autoCapitalize="none"
-      />
-      <Button
-        title="Login"
-        onPress={() => {
-          handleLogin();
-        }}
-      />
-      <Text style={{ textAlign: "center", marginTop: 20 }}>
-        Don't have an account? Click{" "}
-        <Text
-          style={{ color: "#6E0301" }}
-          onPress={() => navigation.navigate("Register")}
-        >
-          Here
+      <View style={styles.loginSection}>
+        <Text style={{ fontSize: 30, color: "white", fontWeight: "bold" }}>
+          Sign In
         </Text>
-      </Text>
+        <Input
+          placeholder="Username"
+          keyboardType="default"
+          value={username}
+          onChangeText={(text) => setUsername(text)}
+          autoCapitalize="none"
+        />
+        <Input
+          placeholder="Password"
+          keyboardType="default"
+          secureTextEntry
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+          autoCapitalize="none"
+        />
+        <Pressable
+          onPress={() => handleLogin()}
+          style={{
+            backgroundColor: "#e50914",
+            padding: 10,
+            borderRadius: 8,
+            marginTop: 15,
+          }}
+        >
+          <Text style={{ color: "white", textAlign: "center" }}>Login</Text>
+        </Pressable>
+        <View style={{ flex: 1, flexDirection: "row", marginTop: 20 }}>
+          <Text style={{ textAlign: "center", color: "white" }}>
+            Don't have an account? Click{" "}
+          </Text>
+          <Text
+            style={{
+              textAlign: "center",
+              color: "white",
+              fontWeight: "bold",
+            }}
+            onPress={() => navigation.navigate("Register")}
+          >
+            Here
+          </Text>
+        </View>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    marginTop: 30,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#212121",
+  },
+  loginSection: {
+    width: "80%",
+    height: "50%",
   },
 });

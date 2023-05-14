@@ -1,20 +1,18 @@
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Contoh from "@screens/Contoh";
 import DetailScreen from "@screens/DetailScreen";
 import DownloadScreen from "@screens/DownloadScreen";
 import GameScreen from "@screens/GameScreen";
 import HomeScreen from "@screens/HomeScreen";
 import LoginScreen from "@screens/LoginScreen";
-import MovieScreen from "@screens/MovieScreen";
 import NewsScreen from "@screens/NewsScreen";
 import RegisterScreen from "@screens/RegisterScreen";
 import UserScreen from "@screens/UserScreen";
 import { NetflixUserAtom } from "@store/";
 import { useAtom } from "jotai";
 import React from "react";
-import { AntDesign } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
+import { Image, TouchableOpacity, View } from "react-native";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -49,8 +47,8 @@ export default function AppStack() {
       >
         <Tab.Screen
           name="Home"
-          component={Contoh}
-          options={{
+          component={HomeScreen}
+          options={({ navigation }) => ({
             tabBarIcon: ({ focused }) => (
               <AntDesign
                 name="home"
@@ -58,7 +56,49 @@ export default function AppStack() {
                 color={focused ? "white" : "gray"}
               />
             ),
-          }}
+            headerTitleStyle: {
+              display: "none",
+            },
+            headerLeft: () => (
+              <Image
+                source={require("@assets/images/logo.png")}
+                style={{ width: 50, height: 50, marginLeft: 10 }}
+              />
+            ),
+            headerRight: () => (
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => alert("Sedang dalam pengembangan")}
+                >
+                  <Ionicons
+                    name="ios-search"
+                    size={24}
+                    color="white"
+                    style={{ marginRight: 15 }}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("User")}>
+                  <Image
+                    source={{
+                      uri: `https://ui-avatars.com/api/?name=${dataUser.username}&size=128&background=0D8ABC&color=fff`,
+                    }}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      marginRight: 20,
+                      borderRadius: 5,
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+            ),
+          })}
         ></Tab.Screen>
         <Tab.Screen
           name="Game"
@@ -115,29 +155,27 @@ export default function AppStack() {
               headerShown: false,
             }}
           />
-          <Stack.Screen
-            name="Contoh"
-            component={Contoh}
-            options={{
-              title: "Contoh",
-            }}
-          />
-          <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{
-              title: "Netflix Clone",
-            }}
-          />
+          <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen
             name="DetailMedia"
             component={DetailScreen}
             options={{ headerShown: false }}
           />
+
           <Stack.Screen
-            name="MovieScreen"
-            component={MovieScreen}
-            options={({ route }) => ({ title: route.params.media.title })}
+            name="User"
+            component={UserScreen}
+            options={{
+              title: "Profil & Lainnya",
+              headerStyle: {
+                backgroundColor: "#000000",
+                color: "white",
+              },
+              headerTitleStyle: {
+                color: "white",
+              },
+              headerTintColor: "white",
+            }}
           />
         </>
       ) : (
@@ -146,7 +184,7 @@ export default function AppStack() {
             name="Login"
             component={LoginScreen}
             options={{
-              title: "Login",
+              headerShown: false,
             }}
           />
 
@@ -154,7 +192,7 @@ export default function AppStack() {
             name="Register"
             component={RegisterScreen}
             options={{
-              title: "Register",
+              headerShown: false,
             }}
           />
         </>
