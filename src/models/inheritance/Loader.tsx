@@ -14,9 +14,9 @@ export class Loader {
         item.cast,
         item.director,
         item.year,
+        item.duration,
         item.poster
       );
-      movie.duration = item.duration;
       movies.push(movie);
     });
 
@@ -33,11 +33,11 @@ export class Loader {
         item.rating,
         item.cast,
         item.director,
+        item.year,
         item.seasons,
+        item.duration,
         item.poster
       );
-      tvShow.seasons = item.seasons;
-      tvShow.duration = item.duration;
       tvShows.push(tvShow);
     });
 

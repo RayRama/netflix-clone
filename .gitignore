@@ -9,6 +9,7 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
+Netflix Assets.zip
 
 # macOS
 .DS_Store

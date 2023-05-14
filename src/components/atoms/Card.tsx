@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ImageBackground, Image } from "react-native";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 
@@ -17,8 +17,10 @@ export default function Card({ children, onPress }) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
-    width: 380,
-    height: 300,
+    width: 90,
+    marginRight: 5,
+    marginLeft: 5,
+    height: 150,
     borderRadius: 10,
     shadowColor: "#000",
     shadowOffset: {
