@@ -8,7 +8,9 @@ export class Loader {
 
     data.map((item: any) => {
       const movie = new Movie(
+        item.id,
         item.title,
+        item.desc,
         item.genre,
         item.rating,
         item.cast,
@@ -28,14 +30,18 @@ export class Loader {
 
     data.map((item: any) => {
       const tvShow = new TVShow(
+        item.id,
         item.title,
+        item.desc,
         item.genre,
         item.rating,
         item.cast,
         item.director,
+        item.creator,
         item.year,
-        item.seasons,
         item.duration,
+        item.seasons,
+        item.episodes,
         item.poster
       );
       tvShows.push(tvShow);

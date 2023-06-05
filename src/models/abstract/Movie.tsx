@@ -3,10 +3,14 @@ import { VideoContent } from "./VideoContent";
 
 export abstract class Movie extends VideoContent {
   year: number;
+  id: string;
+  desc: string;
   constructor(
+    id: string,
     title: string,
+    desc: string,
     genre: string,
-    rating: number,
+    rating: string,
     cast: string[],
     director?: string,
     year?: number,
@@ -17,10 +21,20 @@ export abstract class Movie extends VideoContent {
     this.year = year;
     this.poster = poster;
     this.duration = duration;
+    this.id = id;
+    this.desc = desc;
   }
 
-  getTitle() {
+  getId(): string {
+    return this.id;
+  }
+
+  getTitle(): string {
     return this.title;
+  }
+
+  getDesc(): string {
+    return this.desc;
   }
 
   getGenre() {

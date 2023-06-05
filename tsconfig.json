@@ -12,7 +12,8 @@
       "@models/*": ["src/models/*"],
       "@data/*": ["src/data/*"],
       "@store/*": ["src/store/*"],
-      "@assets/*": ["src/assets/*"]
+      "@assets/*": ["src/assets/*"],
+      "@helper/*": ["src/helper/*"]
     }
   }
 }

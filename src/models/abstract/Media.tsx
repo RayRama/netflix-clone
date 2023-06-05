@@ -1,6 +1,6 @@
 export abstract class Media {
   title: string;
   genre: string;
-  rating: number;
+  rating: string;
   abstract getDetails(): any;
 }

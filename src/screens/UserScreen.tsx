@@ -1,7 +1,3 @@
-import { View, Text, StyleSheet, Button, Pressable, Alert } from "react-native";
-import React from "react";
-import { useAtom } from "jotai";
-import { NetflixUserAtom } from "@store/index";
 import {
   BasicSubscription,
   PremiumSubscription,
@@ -9,9 +5,14 @@ import {
   Subscription,
 } from "@models/abstract/Subscription";
 import { NetflixUser } from "@models/inheritance/NetflixUser";
+import { NetflixUserAtom, AuthAtom } from "@store/index";
+import { useAtom } from "jotai";
+import React from "react";
+import { Alert, Button, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function UserScreen() {
   const [dataUser, setDataUser] = useAtom(NetflixUserAtom);
+  const [auth, setAuth] = useAtom(AuthAtom);
   const [currentPlan, setCurrentPlan] = React.useState<string>("None");
   const [currentDuration, setCurrentDuration] = React.useState<string>("None");
   const user = new NetflixUser(
@@ -23,67 +24,67 @@ export default function UserScreen() {
   const standardPlan = new StandardSubscription();
   const premiumPlan = new PremiumSubscription();
 
-  React.useEffect(() => {
-    if (dataUser.subscription !== null) {
-      setCurrentPlan(dataUser.subscription.getName());
-      setCurrentDuration(dataUser.subscription.getDuration());
-    }
-  }, [dataUser]);
+  // React.useEffect(() => {
+  //   if (dataUser?.subscription !== null) {
+  //     setCurrentPlan(dataUser?.subscription.getName());
+  //     setCurrentDuration(dataUser?.subscription.getDuration());
+  //   }
+  // }, [dataUser]);
 
-  const subHandle = (subs: Subscription) => {
-    Alert.alert(
-      "Confirmation",
-      `Are you sure you want to subscribe to ${subs.getName()}?`,
-      [
-        {
-          text: "Cancel",
-          onPress: () => {},
-          style: "cancel",
-        },
-        {
-          text: "Yes",
-          onPress: () => {
-            if (dataUser.subscription === null) {
-              user.subscribe(subs);
-              setDataUser({
-                ...dataUser,
-                subscription: user.getSubscription(),
-              });
-            } else {
-              alert("You already have a subscription.");
-            }
-          },
-        },
-      ]
-    );
-  };
+  // const subHandle = (subs: Subscription) => {
+  //   Alert.alert(
+  //     "Confirmation",
+  //     `Are you sure you want to subscribe to ${subs.getName()}?`,
+  //     [
+  //       {
+  //         text: "Cancel",
+  //         onPress: () => {},
+  //         style: "cancel",
+  //       },
+  //       {
+  //         text: "Yes",
+  //         onPress: () => {
+  //           if (dataUser?.subscription === null) {
+  //             user.subscribe(subs);
+  //             setDataUser({
+  //               ...dataUser,
+  //               subscription: user.getSubscription(),
+  //             });
+  //           } else {
+  //             alert("You already have a subscription.");
+  //           }
+  //         },
+  //       },
+  //     ]
+  //   );
+  // };
 
-  const unsubHandle = () => {
-    Alert.alert("Confirmation", `Are you sure you want to unsubscribe?`, [
-      {
-        text: "Cancel",
-        onPress: () => {},
-        style: "cancel",
-      },
-      {
-        text: "Yes",
-        onPress: () => {
-          if (dataUser.subscription !== null) {
-            user.unsubscribe();
-            setDataUser({
-              ...dataUser,
-              subscription: null,
-            });
+  // const unsubHandle = () => {
+  //   Alert.alert("Confirmation", `Are you sure you want to unsubscribe?`, [
+  //     {
+  //       text: "Cancel",
+  //       onPress: () => {},
+  //       style: "cancel",
+  //     },
+  //     {
+  //       text: "Yes",
+  //       onPress: () => {
+  //         if (dataUser?.subscription !== null) {
+  //           user.unsubscribe();
+  //           setDataUser({
+  //             ...dataUser,
+  //             subscription: null,
+  //           });
 
-            setCurrentPlan("None");
-            setCurrentDuration("None");
-          } else {
-            alert("You don't have a subscription.");
-          }
-        },
-      },
-    ]);
-  };
+  //           setCurrentPlan("None");
+  //           setCurrentDuration("None");
+  //         } else {
+  //           alert("You don't have a subscription.");
+  //         }
+  //       },
+  //     },
+  //   ]);
+  // };
 
   const logoutHandle = () => {
     Alert.alert("Confirmation", `Are you sure you want to logout?`, [
@@ -95,15 +96,18 @@ export default function UserScreen() {
       {
         text: "Yes",
         onPress: () => {
-          setDataUser({
-            ...dataUser,
-            loggedIn: false,
+          setAuth({
+            token: null,
+            authenticated: false,
           });
+
           user.logout();
         },
       },
     ]);
   };
+
+  // console.log(auth);
 
   return (
     <View style={styles.container}>

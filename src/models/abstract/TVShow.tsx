@@ -1,26 +1,43 @@
 import { VideoContent } from "./VideoContent";
 
 export abstract class TVShow extends VideoContent {
-  seasons: number;
-  year: number;
+  id: string;
+  desc: string;
+  seasons: string;
+  year: string;
+  episodes: string[];
+  creator: string;
   constructor(
+    id: string,
     title: string,
+    desc: string,
     genre: string,
-    rating: number,
+    rating: string,
     cast: string[],
     director?: string,
-    year?: number,
-    seasons?: number,
-    duration?: number,
+    creator?: string,
+    year?: string,
+    duration?: string,
+    seasons?: string,
+    episodes?: string[],
     poster?: string
   ) {
-    super(title, genre, rating, cast, director);
+    super(title, genre, rating, cast, director, duration);
+    this.id = id;
+    this.desc = desc;
     this.year = year;
-    this.seasons = seasons;
     this.duration = duration;
+    this.creator = creator;
+    this.seasons = seasons;
+    this.episodes = episodes;
     this.poster = poster;
   }
   play(): void {}
+
+  getId(): string {
+    return this.id;
+  }
+
   getTitle(): string {
     return this.title;
   }
@@ -40,15 +57,23 @@ export abstract class TVShow extends VideoContent {
     return this.director;
   }
 
+  getCreator(): string {
+    return this.creator;
+  }
+
   getYear(): number {
     return this.year;
   }
 
-  getDuration(): number {
+  getDuration(): string {
     return this.duration;
   }
 
-  getSeasons(): number {
+  getSeasons(): string {
     return this.seasons;
+  }
+
+  getEpisodes(): string[] {
+    return this.episodes;
   }
 }

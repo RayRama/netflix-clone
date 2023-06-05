@@ -10,6 +10,8 @@ import { NetflixUserAtom } from "@store/";
 import { useAtom } from "jotai";
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
+import * as SecureStore from "expo-secure-store";
+import { useToken } from "@helper/hooks/useToken";
 
 export default function HomeScreen({ navigation }) {
   const [tvShows, setTvShows] = React.useState<TVShow[]>([]);

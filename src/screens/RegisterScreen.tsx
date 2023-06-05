@@ -2,29 +2,41 @@ import { View, Text, StyleSheet, Button, Pressable } from "react-native";
 import React from "react";
 import Input from "@atoms/Input";
 import { useAtom } from "jotai";
-import { NetflixUserAtom } from "@store/";
+import { NetflixUserAtom, isLoadingAtom } from "@store/";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NetflixUser } from "@models/inheritance/NetflixUser";
 
 export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = React.useState("");
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [dataUser, setDataUser] = useAtom(NetflixUserAtom);
+  const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
 
-  const registerHandle = () => {
+  const registerHandle = async () => {
     if (email.length < 1 || username.length < 1 || password.length < 1) {
       alert("Please fill all the fields");
       return;
     }
-    alert("Register success");
-    setDataUser({
-      ...dataUser,
-      email,
-      username,
-      password,
-    });
+    setIsLoading(true);
+    const user = new NetflixUser();
+    try {
+      await user.register(username, email, password).then(() => {
+        setIsLoading(false);
+        alert("Register Success");
+        navigation.navigate("Login");
+      });
+    } catch (error) {
+      alert(error?.data?.message);
+      setIsLoading(false);
+    }
+    // setDataUser({
+    //   ...dataUser,
+    //   email,
+    //   username,
+    //   password,
+    // });
     // await AsyncStorage.setItem("user", JSON.stringify(dataUser));
-    navigation.navigate("Login");
   };
 
   return (

@@ -10,6 +10,7 @@ npm-debug.*
 *.orig.*
 web-build/
 Netflix Assets.zip
+.env
 
 # macOS
 .DS_Store

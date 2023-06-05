@@ -9,16 +9,19 @@ import LoginScreen from "@screens/LoginScreen";
 import NewsScreen from "@screens/NewsScreen";
 import RegisterScreen from "@screens/RegisterScreen";
 import UserScreen from "@screens/UserScreen";
-import { NetflixUserAtom } from "@store/";
+import { NetflixUserAtom, AuthAtom } from "@store/";
 import { useAtom } from "jotai";
 import React from "react";
 import { Image, TouchableOpacity, View } from "react-native";
+import * as SecureStorage from "expo-secure-store";
+import { useToken } from "@helper/hooks/useToken";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function AppStack() {
   const [dataUser] = useAtom(NetflixUserAtom);
+  const [auth] = useAtom(AuthAtom);
 
   const BottomBar = () => {
     return (
@@ -146,7 +149,7 @@ export default function AppStack() {
 
   return (
     <Stack.Navigator>
-      {dataUser.loggedIn ? (
+      {auth.authenticated ? (
         <>
           <Stack.Screen
             name="BottomApp"

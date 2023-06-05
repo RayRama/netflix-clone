@@ -6,8 +6,12 @@ interface IUser {
   username: string;
   password: string;
   subscription: Subscription;
-  loggedIn: boolean;
   myList: any[];
+}
+
+interface IAuth {
+  token: string;
+  authenticated: boolean;
 }
 
 const initialUser: IUser = {
@@ -15,8 +19,16 @@ const initialUser: IUser = {
   username: "",
   password: "",
   subscription: null,
-  loggedIn: false,
   myList: [],
 };
 
+const initialAuth: IAuth = {
+  token: null,
+  authenticated: null,
+};
+
 export const NetflixUserAtom = atom<IUser>(initialUser);
+
+export const isLoadingAtom = atom<boolean>(false);
+
+export const AuthAtom = atom<IAuth>(initialAuth);

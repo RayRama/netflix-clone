@@ -12,7 +12,7 @@ export abstract class User {
 
   abstract subscribe(): void;
   abstract unsubscribe(): void;
-  abstract login(): boolean;
+  abstract login(): void;
   abstract logout(): void;
   abstract addToMyList(): void;
   abstract removeFromMyList(): void;

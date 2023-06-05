@@ -1,34 +1,59 @@
-import { View, Text, StyleSheet, Button, Pressable } from "react-native";
-import React from "react";
 import Input from "@atoms/Input";
+import axios from "@helper/api/axios";
 import { NetflixUser } from "@models/inheritance/NetflixUser";
+import { AuthAtom, NetflixUserAtom, isLoadingAtom } from "@store/";
+import * as SecureStore from "expo-secure-store";
 import { useAtom } from "jotai";
-import { NetflixUserAtom } from "@store/";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function LoginScreen({ navigation }) {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [dataUser, setDataUser] = useAtom(NetflixUserAtom);
+  const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
+  const [auth, setAuth] = useAtom(AuthAtom);
 
-  const handleLogin = () => {
-    if (
-      dataUser.username == username &&
-      dataUser.password == password &&
-      username.length > 0 &&
-      password.length > 0
-    ) {
-      const user = new NetflixUser(username, dataUser.email, password);
-      setDataUser({
-        ...dataUser,
-        loggedIn: true,
+  const handleLogin = async () => {
+    setIsLoading(true);
+    const user = new NetflixUser();
+    await user
+      .login(username, password)
+      .then((res) => {
+        setDataUser({
+          ...dataUser,
+          username: res.data.username,
+          email: res.data.email,
+        });
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        alert(err?.response?.data);
+        setIsLoading(false);
       });
-      user.login(password);
-    } else {
-      alert("Username or password not found");
-      return;
-    }
   };
+
+  React.useEffect(() => {
+    const loadToken = async () => {
+      const token = await SecureStore.getItemAsync("token");
+      if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        setAuth({
+          token: token,
+          authenticated: true,
+        });
+      }
+    };
+
+    const loadDataUser = async () => {
+      const user = await SecureStore.getItemAsync("user");
+      if (user) {
+        setDataUser(JSON.parse(user));
+      }
+    };
+    loadDataUser();
+    loadToken();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -62,6 +87,7 @@ export default function LoginScreen({ navigation }) {
         >
           <Text style={{ color: "white", textAlign: "center" }}>Login</Text>
         </Pressable>
+
         <View style={{ flex: 1, flexDirection: "row", marginTop: 20 }}>
           <Text style={{ textAlign: "center", color: "white" }}>
             Belum punya akun? Klik{" "}

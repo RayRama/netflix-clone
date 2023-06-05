@@ -1,8 +1,8 @@
 import { Content } from "@models/abstract/Content";
 import { Subscription } from "@models/abstract/Subscription";
 import { User } from "@models/abstract/User";
-import { useAtom } from "jotai";
-import { NetflixUserAtom } from "@store/";
+import axios from "@helper/api/axios";
+import * as SecureStore from "expo-secure-store";
 
 export class NetflixUser extends User {
   password: string;
@@ -11,11 +11,16 @@ export class NetflixUser extends User {
 
   mylist: Content[];
 
-  constructor(name: string, email: string, password: string) {
-    super(name, email);
-    this.password = password;
-    this.mylist = [];
-  }
+  // constructor(name: string, email: string, password: string) {
+  //   super(name, email);
+  //   this.password = password;
+  //   this.mylist = [];
+  // }
+
+  // constructor(name: string, password: string) {
+  //   super(name);
+  //   this.password = password;
+  // }
 
   subscribe(subs: Subscription): void {
     this._subscription = subs;
@@ -31,18 +36,59 @@ export class NetflixUser extends User {
     alert(`You have successfully unsubscribed.`);
   }
 
-  login(password: string): boolean {
-    if (password === this.password) {
-      console.log(`User ${this.getUsername()} has logged in.`);
-      return true;
-    } else {
-      console.log(`Invalid password.`);
-      return false;
+  async register(
+    username: string,
+    email: string,
+    password: string
+  ): Promise<void> {
+    try {
+      const res = await axios.post("api/auth/register", {
+        username: username,
+        email: email,
+        password: password,
+      });
+
+      return Promise.resolve(res);
+    } catch (err) {
+      return Promise.reject(err);
     }
   }
 
-  logout() {
-    alert(`User ${this.getUsername()} has logged out.`);
+  async login(username: string, password: string): Promise<void> {
+    try {
+      const res = await axios.post("api/auth/login", {
+        username: username,
+        password: password,
+      });
+
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${res.data.accessToken}`;
+
+      await SecureStore.setItemAsync("token", res.data.accessToken);
+      await SecureStore.setItemAsync(
+        "user",
+        JSON.stringify({
+          username: res.data.username,
+          email: res.data.email,
+        })
+      );
+      return Promise.resolve(res);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  async logout(): Promise<void> {
+    try {
+      alert(`User ${this.getUsername()} has logged out.`);
+      await SecureStore.deleteItemAsync("token");
+      axios.defaults.headers.common["Authorization"] = "";
+      await SecureStore.deleteItemAsync("user");
+      return Promise.resolve(true);
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 
   addToMyList(content: Content) {
