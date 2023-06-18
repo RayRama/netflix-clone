@@ -20,17 +20,32 @@ export default function RegisterScreen({ navigation }) {
     }
     setIsLoading(true);
     const user = new NetflixUser();
-    try {
-      await user.register(username, email, password).then(() => {
+
+    await user
+      .register(username, email, password)
+      .then(() => {
         setIsLoading(false);
         alert("Register Success");
         navigation.navigate("Login");
+      })
+      .catch((err) => {
+        alert(err?.response?.data);
+        console.log(err);
+        setIsLoading(false);
       });
-    } catch (error) {
-      alert(error?.data?.message);
-      setIsLoading(false);
-    }
-    // setDataUser({
+
+    // try {
+    //   await user.register(username, email, password).then(() => {
+    //     setIsLoading(false);
+    //     alert("Register Success");
+    //     navigation.navigate("Login");
+    //   });
+    // } catch (error) {
+    //   console.log(error);
+    //   alert(error?.data?.message);
+    //   setIsLoading(false);
+    // }
+    // // setDataUser({
     //   ...dataUser,
     //   email,
     //   username,
@@ -80,7 +95,7 @@ export default function RegisterScreen({ navigation }) {
         </Pressable>
         <View style={{ flex: 1, flexDirection: "row", marginTop: 20 }}>
           <Text style={{ textAlign: "center", color: "white" }}>
-            Sudah punya akun? Login{" "}
+            Already have an account?{" "}
           </Text>
           <Text
             style={{
@@ -90,7 +105,7 @@ export default function RegisterScreen({ navigation }) {
             }}
             onPress={() => navigation.pop()}
           >
-            Disini
+            Sign In
           </Text>
         </View>
       </View>

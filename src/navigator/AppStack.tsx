@@ -120,7 +120,7 @@ export default function AppStack() {
           name="News"
           component={NewsScreen}
           options={{
-            tabBarLabel: "Baru & Populer",
+            tabBarLabel: "News & Popular",
             tabBarIcon: ({ focused }) => (
               <Ionicons
                 name="ios-newspaper"

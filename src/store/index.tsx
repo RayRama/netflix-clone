@@ -24,7 +24,7 @@ const initialUser: IUser = {
 
 const initialAuth: IAuth = {
   token: null,
-  authenticated: null,
+  authenticated: false,
 };
 
 export const NetflixUserAtom = atom<IUser>(initialUser);

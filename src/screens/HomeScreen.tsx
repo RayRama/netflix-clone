@@ -1,50 +1,96 @@
-import { Choice, Popular, Premiere, Trending } from "@data/MovieList2";
-import { TVShowList } from "@data/TVShowList";
+import { AxiosClient } from "@helper/api/axios";
 import { Movie } from "@models/abstract/Movie";
-import { TVShow } from "@models/abstract/TVShow";
 import { Loader } from "@models/inheritance/Loader";
-import { NetflixUser } from "@models/inheritance/NetflixUser";
+import ListMedia from "@molecules/ListMedia";
 import PremiereMedia from "@molecules/PremiereMedia";
-import VideoCard from "@molecules/VideoCard";
-import { NetflixUserAtom } from "@store/";
+import { AuthAtom, NetflixUserAtom } from "@store/";
 import { useAtom } from "jotai";
 import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import * as SecureStore from "expo-secure-store";
-import { useToken } from "@helper/hooks/useToken";
+import { RefreshControl, ScrollView, StyleSheet } from "react-native";
 
 export default function HomeScreen({ navigation }) {
-  const [tvShows, setTvShows] = React.useState<TVShow[]>([]);
-  const [premiere, setPremiere] = React.useState<Movie[]>([]);
-  const [trending, setTrending] = React.useState<Movie[]>([]);
-  const [popular, setPopular] = React.useState<Movie[]>([]);
-  const [choice, setChoice] = React.useState<Movie[]>([]);
+  const [premiere, setPremiere] = React.useState<Movie>();
+  const [lists, setLists] = React.useState([]);
   const [dataUser, setDataUser] = useAtom(NetflixUserAtom);
-  const user = new NetflixUser(
-    dataUser.username,
-    dataUser.email,
-    dataUser.password
-  );
+  const [refreshing, setRefreshing] = React.useState(false);
+  const [auth] = useAtom(AuthAtom);
 
-  const tempMediaHandle = (media) => {
-    navigation.navigate("DetailMedia", { media });
-  };
+  const axiosClient = new AxiosClient();
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    async function loadData() {
+      const randomPremiere = new Movie();
+      await randomPremiere.getRandom(auth.token).then((res) => {
+        const premiere = Loader.loadRandomMovie(res.data[0]);
+        setPremiere(premiere);
+      });
+    }
+    async function loadLists() {
+      // await axios
+      //   .get("api/lists", {
+      //     headers: {
+      //       token: `Bearer ${auth.token}`,
+      //     },
+      //     withCredentials: true,
+      //   })
+      //   .then((res) => {
+      //     setLists(res.data);
+      //   });
+
+      axiosClient.setTokenHeader(auth.token);
+      await axiosClient
+        .getInstace()
+        .get("api/lists")
+        .then((res) => {
+          setLists(res.data);
+        });
+    }
+
+    loadLists();
+    loadData();
+    setRefreshing(false);
+  }, []);
 
   React.useEffect(() => {
-    function loadData() {
-      const tvShows = Loader.loadTVShows(TVShowList);
-      const premiere = Loader.loadMovies(Premiere);
-      const trending = Loader.loadMovies(Trending);
-      const popular = Loader.loadMovies(Popular);
-      const choice = Loader.loadMovies(Choice);
-      setTvShows(tvShows);
-      setPremiere(premiere);
-      setTrending(trending);
-      setPopular(popular);
-      setChoice(choice);
+    async function loadData() {
+      axiosClient.setTokenHeader(auth.token);
+      const randomPremiere = new Movie();
+      await randomPremiere.getRandom(auth.token).then((res) => {
+        const premiere = Loader.loadRandomMovie(res.data[0]);
+        setPremiere(premiere);
+      });
     }
     loadData();
   }, []);
+
+  React.useEffect(() => {
+    async function loadLists() {
+      // await axios
+      //   .get("api/lists", {
+      //     headers: {
+      //       token: `Bearer ${auth.token}`,
+      //     },
+      //     withCredentials: true,
+      //   })
+      //   .then((res) => {
+      //     setLists(res.data);
+      //   });
+
+      axiosClient.setTokenHeader(auth.token);
+      await axiosClient
+        .getInstace()
+        .get("api/lists")
+        .then((res) => {
+          setLists(res.data);
+        });
+    }
+    loadLists();
+  }, []);
+
+  const mediaHandle = (media) => {
+    navigation.navigate("DetailMedia", { media });
+  };
 
   return (
     <ScrollView
@@ -56,64 +102,24 @@ export default function HomeScreen({ navigation }) {
       contentContainerStyle={{
         paddingBottom: 90,
       }}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          colors={["#222"]}
+        />
+      }
     >
       <PremiereMedia
-        key={premiere[0]?.title}
-        image={premiere[0]?.poster}
-        genre={premiere[0]?.genre}
-        infoPress={() => tempMediaHandle(premiere[0])}
-        playPress={() => premiere[0].play(dataUser)}
+        image={premiere?.poster}
+        genre={premiere?.genre}
+        infoPress={() => mediaHandle(premiere)}
+        playPress={() => premiere.play(dataUser)}
       />
 
-      <View style={styles.category}>
-        <Text style={styles.categoryTitle}>Populer di Netflix</Text>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          {popular.map((movie: Movie, index) => (
-            <VideoCard
-              key={index}
-              image={movie.poster}
-              onPress={() => tempMediaHandle(movie)}
-            />
-          ))}
-        </ScrollView>
-      </View>
-
-      <View style={styles.category}>
-        <Text style={styles.categoryTitle}>Sedang Tren Sekarang</Text>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          {trending.map((movie: Movie, index) => (
-            <VideoCard
-              key={index}
-              image={movie.poster}
-              onPress={() => tempMediaHandle(movie)}
-            />
-          ))}
-        </ScrollView>
-      </View>
-      <View style={styles.category}>
-        <Text style={styles.categoryTitle}>TV Show</Text>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          {tvShows.map((tvShow: TVShow, index) => (
-            <VideoCard
-              key={index}
-              image={tvShow.poster}
-              onPress={() => tempMediaHandle(tvShow)}
-            />
-          ))}
-        </ScrollView>
-      </View>
-      <View style={styles.category}>
-        <Text style={styles.categoryTitle}>Pilihan Netflix</Text>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          {choice.map((movie: Movie, index) => (
-            <VideoCard
-              key={index}
-              image={movie.poster}
-              onPress={() => tempMediaHandle(movie)}
-            />
-          ))}
-        </ScrollView>
-      </View>
+      {lists.map((list, index) => {
+        return <ListMedia key={index} data={list} />;
+      })}
     </ScrollView>
   );
 }

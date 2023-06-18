@@ -17,7 +17,7 @@ export abstract class TVShow extends VideoContent {
     director?: string,
     creator?: string,
     year?: string,
-    duration?: string,
+    duration?: number,
     seasons?: string,
     episodes?: string[],
     poster?: string
@@ -41,6 +41,11 @@ export abstract class TVShow extends VideoContent {
   getTitle(): string {
     return this.title;
   }
+
+  getDesc(): string {
+    return this.desc;
+  }
+
   getGenre(): string {
     return this.genre;
   }

@@ -1,26 +1,28 @@
 import { Content } from "@models/abstract/Content";
 import { Subscription } from "@models/abstract/Subscription";
 import { User } from "@models/abstract/User";
-import axios from "@helper/api/axios";
-import * as SecureStore from "expo-secure-store";
+import { AuthService } from "@services/AuthService";
 
 export class NetflixUser extends User {
-  password: string;
   private _subscription: Subscription;
+  private authService: AuthService;
   public isSubs: boolean;
 
+  password: string;
   mylist: Content[];
 
-  // constructor(name: string, email: string, password: string) {
-  //   super(name, email);
-  //   this.password = password;
-  //   this.mylist = [];
-  // }
+  constructor() {
+    super();
+    this.authService = new AuthService();
+    this.mylist = [];
+  }
 
-  // constructor(name: string, password: string) {
-  //   super(name);
-  //   this.password = password;
-  // }
+  constructor(name: string, email: string, password: string) {
+    super(name, email);
+    this.password = password;
+    this.mylist = [];
+    this.authService = new AuthService();
+  }
 
   subscribe(subs: Subscription): void {
     this._subscription = subs;
@@ -42,11 +44,7 @@ export class NetflixUser extends User {
     password: string
   ): Promise<void> {
     try {
-      const res = await axios.post("api/auth/register", {
-        username: username,
-        email: email,
-        password: password,
-      });
+      const res = await this.authService.register(username, email, password);
 
       return Promise.resolve(res);
     } catch (err) {
@@ -56,35 +54,17 @@ export class NetflixUser extends User {
 
   async login(username: string, password: string): Promise<void> {
     try {
-      const res = await axios.post("api/auth/login", {
-        username: username,
-        password: password,
-      });
-
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${res.data.accessToken}`;
-
-      await SecureStore.setItemAsync("token", res.data.accessToken);
-      await SecureStore.setItemAsync(
-        "user",
-        JSON.stringify({
-          username: res.data.username,
-          email: res.data.email,
-        })
-      );
+      const res = await this.authService.login(username, password);
       return Promise.resolve(res);
-    } catch (error) {
-      return Promise.reject(error);
+    } catch (err) {
+      return Promise.reject(err);
     }
   }
 
   async logout(): Promise<void> {
     try {
       alert(`User ${this.getUsername()} has logged out.`);
-      await SecureStore.deleteItemAsync("token");
-      axios.defaults.headers.common["Authorization"] = "";
-      await SecureStore.deleteItemAsync("user");
+      await this.authService.logout();
       return Promise.resolve(true);
     } catch (error) {
       return Promise.reject(error);

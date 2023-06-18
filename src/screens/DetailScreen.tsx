@@ -25,6 +25,8 @@ export default function DetailScreen({ route }) {
     return `${hours}h ${minutes}m`;
   };
 
+  console.log(media);
+
   return (
     <ScrollView
       style={styles.container}
@@ -40,11 +42,9 @@ export default function DetailScreen({ route }) {
       <View style={styles.info}>
         <Text style={styles.infoText}>{media.getYear()}</Text>
         <View style={styles.rating}>
-          <Ionicons name="star" size={16} color="yellow" />
           <Text
             style={{
-              color: "gray",
-              marginLeft: 4,
+              color: "white",
             }}
           >
             {media.getRating()}
@@ -53,7 +53,7 @@ export default function DetailScreen({ route }) {
         <Text style={styles.infoText}>
           {media.seasons == null
             ? formatDuration(media.getDuration())
-            : `${formatDuration(media.duration)} per episode`}
+            : `${formatDuration(media.getDuration())} per episode`}
         </Text>
       </View>
       <View style={styles.buttonSection}>
@@ -75,12 +75,7 @@ export default function DetailScreen({ route }) {
       {/* <Button title="Play" onPress={() => media.play(dataUser)} />
       <Button title="Download" onPress={() => media.play(dataUser)} /> */}
       <View style={styles.mediaDetail}>
-        <Text style={styles.description}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-          convallis tincidunt nulla, et cursus diam semper ut. Nunc accumsan
-          eget nunc ut rutrum. Cras dapibus lacus velit, vel aliquam leo pretium
-          vel.
-        </Text>
+        <Text style={styles.description}>{media.getDesc()}</Text>
         <Text style={styles.detailText}>Genre: {media.getGenre()}</Text>
         <Text style={styles.detailText}>
           Cast:{" "}
@@ -89,20 +84,20 @@ export default function DetailScreen({ route }) {
             return name + ", ";
           })}
         </Text>
-        <Text style={styles.detailText}>Sutradara: {media.getDirector()}</Text>
+        <Text style={styles.detailText}>Director: {media.getDirector()}</Text>
       </View>
       <View style={styles.tools}>
         <View style={styles.addButton}>
           <AntDesign name="plus" size={24} color="white" />
-          <Text style={styles.toolsText}>Daftar Saya</Text>
+          <Text style={styles.toolsText}>My List</Text>
         </View>
         <View style={styles.addButton}>
           <AntDesign name="like2" size={24} color="white" />
-          <Text style={styles.toolsText}>Nilai</Text>
+          <Text style={styles.toolsText}>Rate</Text>
         </View>
         <View style={styles.addButton}>
           <Ionicons name="share-social" size={24} color="white" />
-          <Text style={styles.toolsText}>Bagikan</Text>
+          <Text style={styles.toolsText}>Share</Text>
         </View>
       </View>
     </ScrollView>
@@ -133,6 +128,10 @@ const styles = StyleSheet.create({
   rating: {
     flexDirection: "row",
     marginRight: 10,
+    backgroundColor: "#e50914",
+    paddingHorizontal: 2,
+    borderRadius: 2,
+    justifyContent: "center",
   },
   buttonSection: {
     flexDirection: "column",
@@ -180,7 +179,6 @@ const styles = StyleSheet.create({
   },
   tools: {
     flexDirection: "row",
-    gap: 50,
     padding: 10,
   },
   toolsText: {
@@ -191,5 +189,6 @@ const styles = StyleSheet.create({
   addButton: {
     justifyContent: "center",
     alignItems: "center",
+    marginHorizontal: 15,
   },
 });

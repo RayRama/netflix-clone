@@ -1,6 +1,7 @@
 import Input from "@atoms/Input";
-import axios from "@helper/api/axios";
+import { AxiosClient } from "@helper/api/axios";
 import { NetflixUser } from "@models/inheritance/NetflixUser";
+import { SecureStorageService } from "@services/SecureStorageService";
 import { AuthAtom, NetflixUserAtom, isLoadingAtom } from "@store/";
 import * as SecureStore from "expo-secure-store";
 import { useAtom } from "jotai";
@@ -13,6 +14,9 @@ export default function LoginScreen({ navigation }) {
   const [dataUser, setDataUser] = useAtom(NetflixUserAtom);
   const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
   const [auth, setAuth] = useAtom(AuthAtom);
+
+  const axiosClient = new AxiosClient();
+  const secureStorage = new SecureStorageService();
 
   const handleLogin = async () => {
     setIsLoading(true);
@@ -29,15 +33,16 @@ export default function LoginScreen({ navigation }) {
       })
       .catch((err) => {
         alert(err?.response?.data);
+        console.log(err);
         setIsLoading(false);
       });
   };
 
   React.useEffect(() => {
     const loadToken = async () => {
-      const token = await SecureStore.getItemAsync("token");
+      const token = await secureStorage.getItem("token");
       if (token) {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        axiosClient.setTokenHeader(token);
         setAuth({
           token: token,
           authenticated: true,
@@ -46,9 +51,9 @@ export default function LoginScreen({ navigation }) {
     };
 
     const loadDataUser = async () => {
-      const user = await SecureStore.getItemAsync("user");
+      const user = await secureStorage.getItem("user");
       if (user) {
-        setDataUser(JSON.parse(user));
+        setDataUser({ ...dataUser, ...JSON.parse(user) });
       }
     };
     loadDataUser();
@@ -90,7 +95,7 @@ export default function LoginScreen({ navigation }) {
 
         <View style={{ flex: 1, flexDirection: "row", marginTop: 20 }}>
           <Text style={{ textAlign: "center", color: "white" }}>
-            Belum punya akun? Klik{" "}
+            Don't have an account?{" "}
           </Text>
           <Text
             style={{
@@ -100,7 +105,7 @@ export default function LoginScreen({ navigation }) {
             }}
             onPress={() => navigation.navigate("Register")}
           >
-            Disini
+            Sign Up
           </Text>
         </View>
       </View>

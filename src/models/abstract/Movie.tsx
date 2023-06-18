@@ -1,10 +1,12 @@
 import { NetflixUser } from "@models/inheritance/NetflixUser";
 import { VideoContent } from "./VideoContent";
+import axios, { AxiosClient } from "@helper/api/axios";
 
 export abstract class Movie extends VideoContent {
   year: number;
   id: string;
   desc: string;
+  private axiosClient: AxiosClient;
   constructor(
     id: string,
     title: string,
@@ -23,6 +25,7 @@ export abstract class Movie extends VideoContent {
     this.duration = duration;
     this.id = id;
     this.desc = desc;
+    this.axiosClient = new AxiosClient();
   }
 
   getId(): string {
@@ -61,13 +64,22 @@ export abstract class Movie extends VideoContent {
     return this.duration;
   }
 
+  async getRandom(token: string): Promise<void> {
+    try {
+      this.axiosClient.setTokenHeader(token);
+      const res = await this.axiosClient.getInstace().get("api/movies/random");
+      return Promise.resolve(res);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
   play(dataUser: any) {
     if (dataUser.subscription !== null) {
-      alert(`You are watching ${this.title}.`);
-      return true;
+      return alert(`You are watching ${this.title}.`);
     }
 
-    alert(`You need to subscribe to watch ${this.title}.`);
+    return alert(`You need to subscribe to watch ${this.title}.`);
   }
 
   download(dataUser: any) {

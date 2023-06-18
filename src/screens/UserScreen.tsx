@@ -95,19 +95,23 @@ export default function UserScreen() {
       },
       {
         text: "Yes",
-        onPress: () => {
+        onPress: async () => {
+          await user.logout();
           setAuth({
             token: null,
             authenticated: false,
           });
-
-          user.logout();
+          setDataUser({
+            username: "",
+            email: "",
+            password: "",
+            subscription: null,
+            myList: [],
+          });
         },
       },
     ]);
   };
-
-  // console.log(auth);
 
   return (
     <View style={styles.container}>

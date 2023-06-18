@@ -1,5 +1,5 @@
 import { Content } from "./Content";
 
 export abstract class VideoContent extends Content {
-  duration: string;
+  duration: Number;
 }

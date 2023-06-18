@@ -3,6 +3,23 @@ import { TVShow } from "@models/abstract/TVShow";
 import { VideoContent } from "@models/abstract/VideoContent";
 
 export class Loader {
+  static loadMovie(data: any): Movie {
+    const movie = new Movie(
+      data.id,
+      data.title,
+      data.desc,
+      data.genre,
+      data.rating,
+      data.cast,
+      data.director,
+      data.year,
+      data.duration,
+      data.poster
+    );
+
+    return movie;
+  }
+
   static loadMovies(data: any): Movie[] {
     const movies: Movie[] = [];
 
@@ -23,6 +40,26 @@ export class Loader {
     });
 
     return movies;
+  }
+
+  static loadTVShow(data: any): TVShow {
+    const tvShow = new TVShow(
+      data.id,
+      data.title,
+      data.desc,
+      data.genre,
+      data.rating,
+      data.cast,
+      data.director,
+      data.creator,
+      data.year,
+      data.duration,
+      data.seasons,
+      data.episodes,
+      data.poster
+    );
+
+    return tvShow;
   }
 
   static loadTVShows(data: any): TVShow[] {
@@ -48,5 +85,41 @@ export class Loader {
     });
 
     return tvShows;
+  }
+
+  static loadRandomMovie(data: any): Movie {
+    // const randomMovie: Movie[] = [];
+
+    // data.map((item: any) => {
+    //   const movie = new Movie(
+    //     item.id,
+    //     item.title,
+    //     item.desc,
+    //     item.genre,
+    //     item.rating,
+    //     item.cast,
+    //     item.director,
+    //     item.year,
+    //     item.duration,
+    //     item.poster
+    //   );
+    //   randomMovie.push(movie);
+    // });
+
+    // return randomMovie;
+    const randomMovie = new Movie(
+      data._id,
+      data.title,
+      data.desc,
+      data.genre,
+      data.rating,
+      data.cast,
+      data.director,
+      data.year,
+      data.duration,
+      data.poster
+    );
+
+    return randomMovie;
   }
 }

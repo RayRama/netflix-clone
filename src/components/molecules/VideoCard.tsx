@@ -3,7 +3,7 @@ import React from "react";
 import Card from "../atoms/Card";
 import { TouchableOpacity } from "react-native";
 
-export default function videoCard({
+export default function VideoCard({
   image,
   title,
   genre,

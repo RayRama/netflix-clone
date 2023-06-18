@@ -31,12 +31,12 @@ export default function PremiereMedia({ image, genre, playPress, infoPress }) {
           <View style={styles.genre}>
             {genre?.split(",").map((text, index) => {
               return (
-                <>
+                <React.Fragment key={index}>
                   <Text style={styles.genreText}>{text}</Text>
                   <Text style={styles.divider}>
                     {index !== genre?.split(",").length - 1 ? "•" : ""}
                   </Text>
-                </>
+                </React.Fragment>
               );
             })}
           </View>
@@ -48,7 +48,7 @@ export default function PremiereMedia({ image, genre, playPress, infoPress }) {
               onPress={() => alert("Sedang dalam pengembangan")}
             >
               <Ionicons name="add" size={24} color="white" />
-              <Text style={styles.bottomText}>Daftar Saya</Text>
+              <Text style={styles.bottomText}>My List</Text>
             </TouchableOpacity>
 
             {/* Play */}
@@ -58,7 +58,7 @@ export default function PremiereMedia({ image, genre, playPress, infoPress }) {
               onPress={playPress}
             >
               <Ionicons name="play" size={24} color="black" />
-              <Text style={styles.playTitle}>Putar</Text>
+              <Text style={styles.playTitle}>Play</Text>
             </TouchableOpacity>
             {/* Info */}
             <TouchableOpacity
@@ -83,7 +83,7 @@ export default function PremiereMedia({ image, genre, playPress, infoPress }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 400,
+    height: 500,
   },
   imageBackground: {
     flex: 1,
@@ -98,11 +98,10 @@ const styles = StyleSheet.create({
   genreText: {
     color: "white",
     padding: 5,
-    marginRight: 10,
-    marginLeft: 10,
+    marginHorizontal: 5,
   },
   divider: {
-    color: "gray",
+    color: "white",
     fontSize: 20,
   },
   bottom: {
