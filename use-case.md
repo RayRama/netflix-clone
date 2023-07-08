@@ -1,19 +1,12 @@
 ## Use Case Netflix Clone
 
-## Prioritas
-
-- User bisa melihat list film = DONE - Class 'models/abstract/Movie.tsx' , 'screens/Homescreen.tsx' , & 'models/inheritance/Loader.tsx'
-- User bisa melihat detail film = DONE - Class 'models/abstract/Movie.tsx' & 'screens/DetailScreen.tsx'
-
-- User bisa melihat list series = DONE - Class 'models/abstract/TVShow.tsx' & 'screens/Homescreen.tsx' & 'models/inheritance/Loader.tsx'
-- User bisa melihat detail series = DONE - Class 'models/abstract/TVShow.tsx' & 'screens/DetailScreen.tsx'
-
-- User bisa login dan logout = DONE - Class 'models/inheritance/NetflixUser.tsx' , 'screens/LoginScreen.tsx' & 'screens/ProfileScreen.tsx'
-
-- User bisa berlangganan premium = DONE - Class 'models/inheritance/NetflixUser.tsx' , 'models/abstract/Subscription' , 'screens/ProfileScreen.tsx'
-- User bisa berhenti berlangganan premium = DONE - Class 'models/inheritance/NetflixUser.tsx' , 'models/abstract/Subscription' , 'screens/ProfileScreen.tsx'
-
 ### User
+
+All use case
+
+<details>
+
+<summary> Click to expand</summary>
 
 - User bisa melihat list film
 - User bisa melihat detail film
@@ -42,8 +35,32 @@
 - User dapat melihat daftar film dan series yang sedang populer
 - User dapat membagikan konten yang mereka sukai ke media sosial
 - User dapat melihat daftar film dan series yang akan datang
+</details>
+
+Prioritas use case user
+
+<details>
+<summary>Click to expand</summary>
+
+- User bisa melihat list film = DONE - Class 'models/abstract/Movie.tsx' , 'screens/Homescreen.tsx' , & 'models/inheritance/Loader.tsx'
+- User bisa melihat detail film = DONE - Class 'models/abstract/Movie.tsx' & 'screens/DetailScreen.tsx'
+
+- User bisa melihat list series = DONE - Class 'models/abstract/TVShow.tsx' & 'screens/Homescreen.tsx' & 'models/inheritance/Loader.tsx'
+- User bisa melihat detail series = DONE - Class 'models/abstract/TVShow.tsx' & 'screens/DetailScreen.tsx'
+
+- User bisa login dan logout = DONE - Class 'models/inheritance/NetflixUser.tsx' , 'screens/LoginScreen.tsx' & 'screens/ProfileScreen.tsx'
+
+- User bisa berlangganan premium = DONE - Class 'models/inheritance/NetflixUser.tsx' , 'models/abstract/Subscription' , 'screens/ProfileScreen.tsx'
+- User bisa berhenti berlangganan premium = DONE - Class 'models/inheritance/NetflixUser.tsx' , 'models/abstract/Subscription' , 'screens/ProfileScreen.tsx'
+
+</details>
 
 ### Film & Series
+
+All use case
+
+<details>
+<summary> Click to expand</summary>
 
 - Menonton film dan series dengan kualitas 4K
 - Menonton dengan fitur PIP (Pictrue in Picture)
@@ -65,7 +82,32 @@
 - Menonton film dan series dengan fitur rekomendasi berdasarkan genre atau kategori tertentu
 - Menonton film dan series dengan fitur maraton (memutar semua episode secara berurutan)
 
+</details>
+
+Prioritas use case film & series
+
+<details>
+<summary>Click to expand</summary>
+
+- Menggunakan fitur Skip Intro
+- Menggunakan fitur Auto Play
+- Menggunakan fitur Subtitle
+- Menggunakan fitur Dubbing
+- Menggunakan fitur Download
+- Menggunakan fitur Rating
+- Menggunakan fitur Review
+- Menggunakan fitur Comment
+- Menggunakan fitur Share
+- Menggunakan fitur Like
+
+</details>
+
 ### Pihak Manajemen Netflix
+
+All use case
+
+<details>
+<summary>Click to expand</summary>
 
 - Manajemen Konten seperti menambahkan film dan series
 - Analisis data seperti melihat jumlah user yang berlangganan premium, preferensi tontonan user, statistik user, dll
@@ -82,8 +124,28 @@
 - Manajemen dan pengembangan program afiliasi untuk mitra distribusi konten
 - Mengelola dan mengoptimalkan infrastruktur teknis dan kapasitas server untuk mendukung peningkatan pengguna dan streaming yang lancar
 
+</details>
+
+Prioritas use case manajemen
+
+<details>
+<summary>Click to expand</summary>
+
+- Manajemen Konten seperti menambahkan film dan series
+- Analisis data seperti melihat jumlah user yang berlangganan premium, preferensi tontonan user, statistik user, dll
+- Manajemen User seperti melihat data user, menghapus user, dll
+- Manajemen Keuangan seperti melihat laporan keuangan, melihat laporan pajak, melihat laporan keuangan, dll
+- Manajemen promosi, iklan, kampanye, dll
+- Manajemen mitra konten
+
+</details>
+
 ### Pihak Supervisor
 
+All use case
+
+<details>
+<summary>Click to expand</summary>
 - Monitoring kualitas konten
 - Manajemen penilaian dan ulasan
 - Pengawasan konten yang dilaporkan
@@ -94,3 +156,18 @@
 - Meninjau dan menangani keluhan atau masalah teknis yang dilaporkan oleh pengguna
 - Mengawasi proses moderasi ulasan dan komentar pengguna untuk mencegah penyalahgunaan atau konten yang tidak pantas
 - Melakukan evaluasi dan audit rutin terhadap konten yang dilaporkan untuk memastikan tindakan yang diambil sesuai dengan pedoman internal
+
+</details>
+
+Prioritas use case supervisor
+
+<details>
+<summary>Click to expand</summary>
+
+- Monitoring kualitas konten
+- Manajemen penilaian dan ulasan
+- Pengawasan konten yang dilaporkan
+- Pemantauan dan penanganan masalah teknis
+- Melakukan pemeriksaan rutin terhadap konten yang ada di platform untuk mengidentifikasi dan menangani konten yang melanggar pedoman atau standar
+
+</details>
